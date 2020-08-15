@@ -26,21 +26,21 @@ should_be_equal(a, 2)
 should_be_less(a, 1)
 ```
 Then run it. You can get following cmd output:  
-![image](https://github.com/Time-Coder/PySimpleTest/tree/master/images/first_example.png)
+![image](https://github.com/Time-Coder/PySimpleTest/tree/master/images/first_example.png?raw=true)
 
 And you can see 3 output file: `main.log`, `main.info` and `main.linfo`:
 * `main.info` has the same content as console output.
 * `main.linfo` has the same content as `main.info` but with `<file>:<line-number>` link information. It's for double-click jump purpose. See details in section *External Configuration*
-* `main.log`: `info` function will not save into `.log` file. See details in `info` function description in section *Function List*
+* `main.log`: `info` function will not save into `.log` file. See details in [info](#func_info) function description
 
-So what functions can I use just like `should_be_equal` and `should_be_less`? See in section *Function List*
+So what functions can I use just like `should_be_equal` and `should_be_less`? See in section [Function List](#sec_Function_List)
 
-## 3  Function List
+## 3  <label id="sec_Function_List">Function List</label>
 This section will introduce all functions provided by `PySimpleTest`
 
 ### 3.1  Assertion System
 * `should_be_true(expression)`:  
-If `expression` is True, it will print "<font color="green">Pass: (&lt;expression&gt;) is True</font>" and log in three output files. Else "<font color="red">Fail: (\<expression\>) is False</font>" will be printed and logged.
+If `expression` is True, it will print "<font color="green">Pass: (&lt;expression&gt;) is True</font>" and log in three output files. Else "<font color="red">Fail: (&lt;expression&gt;) is False</font>" will be printed and logged.
 * `should_be_false(expression)`: Pass when `expression` is False.
 * `should_be_equal(value1, value2)`: Pass when `value1 == value2`.
 * `should_not_be_equal(value1, value2)`: Pass when `value1 != value2`.
@@ -90,7 +90,7 @@ log("I am here!", color = "red", style = "highlight")
 `color` can choose in list: `["black", "red", "green", "yellow", "blue", "purple", "cyan", "white"]`  
 `style` can choose in list: `["default", "highlight", "underline", "shining", "anti"]`
 
-* `info(*args, **kwargs)`:  
+* <label id="func_info">`info(*args, **kwargs)`</label>:  
 Use `info` just like `log`. `info` will not write into `.log` file but into `.info` file. In fact, `log` will also write into `.info` file. Providing `info` function is aim to keep `.log` file clean. You can use `info` to print and note some assistant information. It will not disturb main test log file.
 
 * `section(name, level = 1)`:  
