@@ -26,7 +26,7 @@ should_be_equal(a, 2)
 should_be_less(a, 1)
 ```
 Then run it. You can get following cmd output:  
-[test1.png]
+![image](https://github.com/Time-Coder/PySimpleTest/tree/master/images/first_example.png)
 
 And you can see 3 output file: `main.log`, `main.info` and `main.linfo`:
 * `main.info` has the same content as console output.
