@@ -29,6 +29,7 @@ Then run it. You can get following cmd output:
 <div align="center">
 <img src="images/first_example.png" width="350">
 </div>
+
 And you can see 3 output file: `main.log`, `main.info` and `main.linfo`:
 
 * `main.info` has the same content as console output.
@@ -148,6 +149,7 @@ In a test report, following figure shows the header and tailer information posit
 <div align="center">
 <img src="images/header_tailer_info.png" width="550">
 </div>
+
 You can use following functions to control the output of Header/Tailer information:
 
 * `title(name)`: to specify title in header information. If it is not used, title message in header information will use script base name.
@@ -199,6 +201,7 @@ Pop out a window to indicate you to do some manual check. This window will have 
 <div align="center">
 <img src="images/mass.png" width="400">
 </div>
+
 that means your console not support ASCII escape characters. Please use `color_off()` to turn off color. The default coloring print status is enabled.
 * `color_off()`: To turn off coloring console output.
 * `voice_on()`: To turn on voice. If voice is enable:
@@ -238,6 +241,7 @@ A file with `.linfo` expand name is also generated. This file is same as `.info`
 <div align="center">
 <img src="images/loghighlight_setting.png" width="500">
 </div>
+
 3. Copy following code in `Log Highlight.sublime-settings -- User` file then save:
 <details>
 	<summary>See Code</summary>
