@@ -116,12 +116,12 @@ Below code will have following output:
 <div align="center">
 <img src="images/section_example.png" width="550">
 </div>
+
 * `subsection(name)`: Same as `section(name, level = 2)`
 * `subsubsection(name)`: Same as `section(name, level = 3)`
 * `subsubsubsection(name)`: Same as `section(name, level = 4)`
 * `subsubsubsubsection(name)`: Same as `section(name, level = 5)`
-* `end_section()`:
-Will go back one level indent for following log. For example:
+* `end_section()`: Will go back one level indent for following log. For example:
 ```
 log("line 1")
 log("line 2")
