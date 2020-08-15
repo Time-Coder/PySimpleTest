@@ -1,6 +1,6 @@
 main.py:3       |  Title: main
 main.py:3       |  Author: H364852
-main.py:3       |  Start Time: 2020-08-15 18:02:54
+main.py:3       |  Start Time: 2020-08-15 16:37:16
 main.py:3       |  
 main.py:3       |  1  Test eval function
 main.py:5       |      1.1  eval single value
@@ -17,8 +17,9 @@ main.py:14      |      [ Section 1.2 Summary: Total: 2, Passed: 2, Failed: 0 ]
 main.py:14      |      
 main.py:14      |  [ Section 1 Summary: Total: 6, Passed: 6, Failed: 0 ]
 main.py:14      |  
-main.py:14      |  End Time: 2020-08-15 18:02:54
-main.py:14      |  Time Elapse: 00:00:0.02
+main.py:14      |  
+main.py:14      |  End Time: 2020-08-15 16:37:16
+main.py:14      |  Time Elapse: 00:00:0.01
 main.py:14      |  Total: 6
 main.py:14      |  Passed: 6
 main.py:14      |  Failed: 0

@@ -172,6 +172,7 @@ __info_filename = ""
 __linfo_filename = ""
 __rel_path = ""
 __script_total_line = 0
+__last_is_end_section = False
 __current_section = ExpandList()
 __current_level = 0
 __indent = ""
@@ -762,6 +763,10 @@ enable = exec
 
 def log(*args, **kwargs):
 	start_test()
+
+	global __last_is_end_section
+	__last_is_end_section = False
+
 	if "end" not in kwargs:
 		kwargs["end"] = "\n"
 	if "sep" not in kwargs:
@@ -850,6 +855,10 @@ def log(*args, **kwargs):
 
 def info(*args, **kwargs):
 	start_test()
+
+	global __last_is_end_section
+	__last_is_end_section = False
+
 	if "end" not in kwargs:
 		kwargs["end"] = "\n"
 	if "sep" not in kwargs:
@@ -949,14 +958,19 @@ def __construct_section_number(level):
 	return number[:-1]
 
 def section(name = "", level = 1):
+	global __section_used
 	global __indent
 	global __current_level
 	global __current_section
+
+	__section_used = True
 
 	green = start_format(color="green", style="highlight")
 	red = start_format(color="red", style="highlight")
 	cyan = start_format(color="cyan", style="highlight")
 	form = green
+
+	global __last_is_end_section
 
 	for i in range(__current_level, level-1, -1):
 		if __current_section[i]["number"] != 0 and __current_section[i]["total"] != 0:
@@ -967,6 +981,7 @@ def section(name = "", level = 1):
 				" Total: " + str(__current_section[i]["total"]) + ", " + end_format() + \
 				green + "Passed: " + str(__current_section[i]["passed"]) + end_format() + cyan + ", " + end_format() + \
 				form  + "Failed: " + str(__current_section[i]["failed"]) + end_format() + cyan + " ]\n" + end_format())
+			__last_is_end_section = True
 			__current_section[i]["total"] = 0
 			__current_section[i]["passed"] = 0
 			__current_section[i]["failed"] = 0
@@ -988,6 +1003,7 @@ def end_section():
 	global __current_level
 	global __current_section
 	global __indent
+	global __last_is_end_section
 	original_indent = __indent
 
 	if __current_level == 0:
@@ -1005,6 +1021,7 @@ def end_section():
 			" Total: " + str(__current_section[__current_level]["total"]) + ", " + end_format() + \
 			green + "Passed: " + str(__current_section[__current_level]["passed"]) + end_format() + cyan + ", " + end_format() + \
 			form  + "Failed: " + str(__current_section[__current_level]["failed"]) + end_format() + cyan + " ]\n" + end_format())
+		__last_is_end_section = True
 		__current_section[__current_level]["total"] = 0
 		__current_section[__current_level]["passed"] = 0
 		__current_section[__current_level]["failed"] = 0
@@ -1098,13 +1115,20 @@ def end_test():
 				exit_code = 1
 		tail_str += end_format()
 
+	break_line = "\n"
+	if __last_is_end_section:
+		break_line = ""
+
 	trace_str = ""
 	try:
-		trace_str = "\n" + "".join(traceback.format_exception(sys.last_type, sys.last_value, sys.last_traceback))
+		trace_str = break_line + "".join(traceback.format_exception(sys.last_type, sys.last_value, sys.last_traceback))
 	except:
 		trace_str = ""
 
-	log(red + trace_str + end_format() + "\n" + tail_str, link=False)
+	if not break_line and not trace_str:
+		log(tail_str)
+	else:
+		log(red + trace_str + end_format() + "\n" + tail_str)
 
 	if __voice_on:
 		try:

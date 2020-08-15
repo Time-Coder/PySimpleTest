@@ -1,0 +1,22 @@
+main.py:6       |  Title: main
+main.py:6       |  Author: H364852
+main.py:6       |  Start Time: 2020-08-15 16:50:57
+main.py:6       |  
+main.py:6       |  Pass: eval("1") is equal to 1
+main.py:7       |  Pass: eval("1.2") is equal to 1.2
+main.py:8       |  Pass: eval("-3.6") is equal to -3.6
+main.py:9       |  Pass: eval("True") is equal to True
+main.py:12      |  Pass: eval("3 + 5*2") is equal to 13
+main.py:13      |  Pass: eval("(6-2)*5") is equal to 20
+main.py:15      |  
+main.py:15      |  Traceback (most recent call last):
+main.py:15      |    File "main.py", line 14, in <module>
+main.py:15      |      6/0
+main.py:15      |  ZeroDivisionError: division by zero
+main.py:15      |  
+main.py:15      |  End Time: 2020-08-15 16:50:57
+main.py:15      |  Time Elapse: 00:00:0.01
+main.py:15      |  Total: 6
+main.py:15      |  Passed: 6
+main.py:15      |  Failed: 0
+main.py:15      |  Result: Error (ZeroDivisionError)

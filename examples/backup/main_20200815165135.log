@@ -1,6 +1,6 @@
 Title: main
 Author: H364852
-Start Time: 2020-08-15 18:02:54
+Start Time: 2020-08-15 16:51:35
 
 1  Test eval function
     1.1  eval single value
@@ -17,8 +17,8 @@ Start Time: 2020-08-15 18:02:54
     
 [ Section 1 Summary: Total: 6, Passed: 6, Failed: 0 ]
 
-End Time: 2020-08-15 18:02:54
-Time Elapse: 00:00:0.02
+End Time: 2020-08-15 16:51:35
+Time Elapse: 00:00:0.01
 Total: 6
 Passed: 6
 Failed: 0

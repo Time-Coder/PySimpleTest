@@ -1,9 +1,9 @@
 # PySimpleTest -- Make test as simple as possible
 
 ## 1  Why PySimpleTest
-If you are suffering from writting just a simple for loop in robot framework, or if you are suffering from figuring out how fixture be called in pytest, you come to the right place.
+If you are suffering from writting just a simple for loop in **Robot Framework**, or if you are suffering from figuring out how fixture be called in **PyTest**, you come to the right place.
 
-PySimpleTest use native python grammar and logic and make test very easy. It has following advantages:
+**PySimpleTest** use native python grammar and logic and make test very easy. It has following advantages:
 
 * Use native python interpreter (not like pytest or robot framework).
 * Only provide functions. No class, fixture, decorator or other weird things.
@@ -26,11 +26,13 @@ should_be_equal(a, 2)
 should_be_less(a, 1)
 ```
 Then run it. You can get following cmd output:  
-![image](https://github.com/Time-Coder/PySimpleTest/tree/master/images/first_example.png?raw=true)
-
+<div align="center">
+<img src="images/first_example.png" width="350">
+</div>
 And you can see 3 output file: `main.log`, `main.info` and `main.linfo`:
+
 * `main.info` has the same content as console output.
-* `main.linfo` has the same content as `main.info` but with `<file>:<line-number>` link information. It's for double-click jump purpose. See details in section *External Configuration*
+* `main.linfo` has the same content as `main.info` but with `<file>:<line-number>` link information. It's for double-click jump purpose. See details in section [External Configuration](#sec_External_Configuration)
 * `main.log`: `info` function will not save into `.log` file. See details in [info](#func_info) function description
 
 So what functions can I use just like `should_be_equal` and `should_be_less`? See in section [Function List](#sec_Function_List)
@@ -40,7 +42,8 @@ This section will introduce all functions provided by `PySimpleTest`
 
 ### 3.1  Assertion System
 * `should_be_true(expression)`:  
-If `expression` is True, it will print "<font color="green">Pass: (&lt;expression&gt;) is True</font>" and log in three output files. Else "<font color="red">Fail: (&lt;expression&gt;) is False</font>" will be printed and logged.
+If `expression` is True, it will print "<font color="green">Pass: (&lt;expression&gt;) is True</font>" and log in three output files.  
+Else "<font color="red">Fail: (&lt;expression&gt;) is False</font>" will be printed and logged.
 * `should_be_false(expression)`: Pass when `expression` is False.
 * `should_be_equal(value1, value2)`: Pass when `value1 == value2`.
 * `should_not_be_equal(value1, value2)`: Pass when `value1 != value2`.
@@ -52,6 +55,7 @@ If `expression` is True, it will print "<font color="green">Pass: (&lt;expressio
 * `should_not_be_approx(value1, value2, tolerence = 5, func = abs)`: Pass when `func(value1-value2) > tolerence`.
 
 Following functions are enhance functions, you need to use `enable(enhance_func)` after `import` just like:
+<label id="enhance"></label>
 ```
 from PySimpleTest import *
 enable(enhance_func)
@@ -82,8 +86,8 @@ Use `log` just like `print`. It will print in console as well as write into log 
 a = {"key": 5}
 log("a =", a)
 ```
-Default log file has the same base name with your python script but with expand name ".log" lays in the same folder with your python script. If you want to change path, use `--logfile` argument. See detail in *Terminal Arguments*.  
-In addition, `log` support color print, you can use `color` and `style` argument to control the print format. For example:
+Default log file has the same base name with your python script but with expand name ".log" lays in the same folder with your python script. If you want to change path, use `--logfile` argument. See details in [Terminal Arguments](#sec_Terminal_Arguments).  
+In addition to `print`, `log` support color print, you can use `color` and `style` argument to control the print format. For example:
 ```
 log("I am here!", color = "red", style = "highlight")
 ```
@@ -109,7 +113,9 @@ should_be_equal(eval("3 + 5*2"), 13)
 should_be_equal(eval("(6-2)*5"), 20)
 ```
 Below code will have following output:
-[test2.png]
+<div align="center">
+<img src="images/section_example.png" width="550">
+</div>
 * `subsection(name)`: Same as `section(name, level = 2)`
 * `subsubsection(name)`: Same as `section(name, level = 3)`
 * `subsubsubsection(name)`: Same as `section(name, level = 4)`
@@ -130,49 +136,76 @@ end_section()
 log("line 7")
 log("line 8")
 end_section()
-
 log("line 9")
 ```
-Below code will have following output:
-[test3.png]
-* `title(name)`: Specify test title. It will be loged in log file as following figure:
-* `author(name)`: Specify test author.
-* `version(name)`: Specify production version.
-* `url(link)`: Specify url.
-* `header_info[key] = value`: You can log more "`<key>: <value>`" liked information in header information. For example:
+Below code will have following output. You can see that after `end_section()`, `line 7` and following log go back one level's indent, `line 9` and following log also go back one level's indent.
+<div align="center">
+<img src="images/end_section_example.png" width="350">
+</div>
+
+### 3.3  Header/Tailer information control
+In a test report, following figure shows the header and tailer information position:
+<div align="center">
+<img src="images/header_tailer_info.png" width="550">
+</div>
+You can use following functions to control the output of Header/Tailer information:
+
+* `title(name)`: to specify title in header information. If it is not used, title message in header information will use script base name.
+* `author(name)`: to specify test author in header information. If it is not used, author will use your system user name.
+* `version(name)`: Specify production version in header information.
+* `url(link)`: Specify url in header information.
+* `header_info[key] = value`: You can log more other "`<key>: <value>`" liked items in header information. For example:
 ```
 header_info["Reviewer"] = "Eason"
 ```
 * `tailer_info[key] = value`: In the same way, you can use `tailer_info` to log more "`<key>: <value>`" liked tailer information.
 
-### 3.3  Test Assistant System
+### 3.4  Test Assistant System
 
 * `Pass(message)`: Same as `log("Pass:", message, color="green", style="highlight")`
 * `Fail(message)`: Same as `log("Fail:", message, color="red", style="highlight")`
 * `Skip(message)`: Same as `log("Skip:", message, color="green", style="highlight")`
-* `wait(duration)`: Wait `<duration>` seconds. If `<duration>` is greater than 10, The progress bar will pop out to indicate progress and time remain. Just like following figure:
-[progressbar1.png]
-* `wait_until(expression, timeout = 480, interval = 0.1, must = False)`: Wait until `<expression>` become True. If time waited more than `timeout`, it will stop waiting. `interval` indicate the time interval between two times `eval` of `<expression>`. If `must` is True, it will raise an `AssertionError` when timeout is reached.
-
-* `wait_until_not(expression, timeout = 480, interval = 0.1, must = False)`: Similar with `wait_until`. Just to wait `<expression>` become False
+* `wait(duration)`: Wait `duration` seconds. If `duration` is greater than 10, The progress bar will pop out to indicate progress and time remain. Just like following figure:
+<div align="center">
+<img src="images/wait.png" width="500">
+</div>
+* `wait_until(expression, timeout = 480, interval = 0.1, must = False)`: Wait until `<expression>` becomes True. If time waited more than `timeout`, it will stop waiting. `interval` indicate the time interval between two times `eval` of `<expression>`. If `must` is True, it will raise an `AssertionError` when timeout is reached.  
+(<font color="red">**Note:**</font> this function can only work after you [enable enhance function](#enhance))
+* `wait_until_not(expression, timeout = 480, interval = 0.1, must = False)`: Similar with `wait_until`. Just to wait `<expression>` become False.  
+(<font color="red">**Note:**</font> this function can only work after you [enable enhance function](#enhance))
 * `please(do_something)`: Pop out a window to indicate you to do some manual operation. For example:
 ```
 please("reboot machine 1")
 ```
-Then it will pop out following window:
-[please.png]
-* `please_check(something)`: Pop out a window to indicate you to do some manual check. This window will have two buttons: `Yes` and `No`. If you click `Yes`, it will log "Pass: (<somthing>) is True". If you click `No`, it will log "Fail: (<something>) is False".
+Then it will pop out following window and wait you finish manual operation then click `OK` button.
+<div align="center">
+<img src="images/please.png" width="200">
+</div>
+* `please_check(something)`:  
+Pop out a window to indicate you to do some manual check. This window will have two buttons: `Yes` and `No`:
+    * If you click `Yes`, it will log "<font color="green">Pass: (&lt;somthing&gt;) is True</font>".
+    * If you click `No`, it will log "<font color="red">Fail: (&lt;something&gt;) is False</font>".
+<div align="center">
+<img src="images/please_check.png" width="200">
+</div>
 * `say(message)`: You can use `say` to speak out message.
 
-### 3.4  Configuration System
+### 3.5  Configuration System
 
 * `color_on()`: To turn on coloring console output. If your console out is just like following figure:
-[mass.png], means your console not support ASCII escape characters. Please use `color_off()` to turn off color.
+<div align="center">
+<img src="images/mass.png" width="400">
+</div>
+that means your console not support ASCII escape characters. Please use `color_off()` to turn off color. The default coloring print status is enabled.
 * `color_off()`: To turn off coloring console output.
-* `voice_on()`: To turn on voice. If voice is enable, a voice will say "Fail" when assertion failed; a voice will say out Exception Type when an internal exception is raised.
-* `voice_off()`: To turn off voice. If voice is disable, Fail and internal Error will not be speak out.
+* `voice_on()`: To turn on voice. If voice is enable:
+    * a voice will say "Fail" when assertion failed;
+    * a voice will say out Exception Type when an internal exception is raised;
+    * a voice will say "Please &lt;do something&gt;" when `please` is called;
+    * a voice will say "Please check &lt;something&gt;" when `please_check` is called. 
+* `voice_off()`: To turn off voice. If voice is disable, nothing will speak out only except you use `say` function. The voice default status is disabled.
 
-## 4  Terminal Arguments
+## 4  <label id="sec_Terminal_Arguments">Terminal Arguments</label>
 If you import `PySimpleTest`, you can use some terminal arguments to configure some thing. The terminal arguments formats is as following:
 ```
 $ python <script>.py [--logfile <path>] [--infofile <path>] [--linfofile <path>] [--color {on|off}] [--voice {on|off}] [--title <name>] [--author <name>] [--version <name>] [--url <link>]
@@ -193,13 +226,15 @@ All supported arguments description are list here:
 * `--version <ver>`: to specify product version logged in log file. Just like use `version(ver)` inside script.
 * `--url <link>`: to specify url link logged in log file. Just like use `url(link)` inside script.
 
-## 5  External Configuration
+## 5  <label id="sec_External_Configuration">External Configuration</label>
 A file with `.linfo` expand name is also generated. This file is same as `.info` file but with additional link information. So `linfo` is the abbreviation of "link info". The link information is just like `<file_name>:<line_number>`. It's used for double click then jump to script calling place. But this need editor's support. This section will introduce how to implement double click jump in different editors.
 
 ### 5.1  Sublime Text
 1. Firstly please install `Log Highlight` plugin in Sublime Text
 2. Click Preferences->Package Settings->Log Highlight->Settings. Just like following figure
-[setting.png]
+<div align="center">
+<img src="images/loghighlight_setting.png" width="500">
+</div>
 3. Copy following code in `Log Highlight.sublime-settings -- User` file then save:
 <details>
 	<summary>See Code</summary>
@@ -541,4 +576,6 @@ A file with `.linfo` expand name is also generated. This file is same as `.info`
 6. Restart Sublime Text.
 7. Open a `*.linfo` file with Sublime Text.
 8. Double click a line, then it will jump to calling place. Just like following gif:
-[jump.gif]
+<div align="center">
+<img src="images/jump.gif" width="700">
+</div>

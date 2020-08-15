@@ -1,14 +1,25 @@
 Title: main
 Author: H364852
-Start Time: 2020-08-13 22:02:06
+Start Time: 2020-08-15 18:02:54
 
-Pass: a is equal to 2
-Fail: a is not less than 1
-     (a = 2)
+1  Test eval function
+    1.1  eval single value
+        Pass: eval("1") is equal to 1
+        Pass: eval("1.2") is equal to 1.2
+        Pass: eval("-3.6") is equal to -3.6
+        Pass: eval("True") is equal to True
+    [ Section 1.1 Summary: Total: 4, Passed: 4, Failed: 0 ]
+    
+    1.2  eval math expression
+        Pass: eval("3 + 5*2") is equal to 13
+        Pass: eval("(6-2)*5") is equal to 20
+    [ Section 1.2 Summary: Total: 2, Passed: 2, Failed: 0 ]
+    
+[ Section 1 Summary: Total: 6, Passed: 6, Failed: 0 ]
 
-End Time: 2020-08-13 22:02:06
-Time Elapse: 00:00:0.01
-Total: 2
-Passed: 1
-Failed: 1
-Result: Fail
+End Time: 2020-08-15 18:02:54
+Time Elapse: 00:00:0.02
+Total: 6
+Passed: 6
+Failed: 0
+Result: Pass
