@@ -578,6 +578,7 @@ A file with `.linfo` expand name is also generated. This file is same as `.info`
 }
 ```
 </details>
+
 4. `Ctrl+Shift+P` in Sublime, input `Log Highlight` in panel.
 5. Click `Log Highlight: Generate Syntax & Theme`
 6. Restart Sublime Text.
