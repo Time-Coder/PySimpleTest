@@ -585,5 +585,5 @@ A file with `.linfo` expand name is also generated. This file is same as `.info`
 7. Open a `*.linfo` file with Sublime Text.
 8. Double click a line, then it will jump to calling place. Just like following gif:
 <div align="center">
-<img src="https://s1.ax1x.com/2020/08/15/dkozT0.gif" width="700">
+<img src="https://ftp.bmp.ovh/imgs/2020/08/a5c36d6089ff4dcc.gif" width="700">
 </div>
