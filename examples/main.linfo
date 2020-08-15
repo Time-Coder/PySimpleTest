@@ -1,0 +1,14 @@
+main.py:4       |  Title: main
+main.py:4       |  Author: H364852
+main.py:4       |  Start Time: 2020-08-13 22:02:06
+main.py:4       |  
+main.py:4       |  Pass: a is equal to 2
+main.py:5       |  Fail: a is not less than 1
+main.py:5       |       (a = 2)
+main.py:6       |  
+main.py:6       |  End Time: 2020-08-13 22:02:06
+main.py:6       |  Time Elapse: 00:00:0.01
+main.py:6       |  Total: 2
+main.py:6       |  Passed: 1
+main.py:6       |  Failed: 1
+main.py:6       |  Result: Fail
