@@ -27,7 +27,7 @@ should_be_less(a, 1)
 ```
 Then run it. You can get following cmd output:  
 <div align="center">
-<img src="images/first_example.png" width="350">
+<img src="https://s1.ax1x.com/2020/08/15/dkoHfS.png" width="350">
 </div>
 
 And you can see 3 output file: `main.log`, `main.info` and `main.linfo`:
@@ -115,7 +115,7 @@ should_be_equal(eval("(6-2)*5"), 20)
 ```
 Below code will have following output:
 <div align="center">
-<img src="/images/section_example.png" width="550">
+<img src="https://s1.ax1x.com/2020/08/15/dkoxwq.png" width="550">
 </div>
 
 * `subsection(name)`: Same as `section(name, level = 2)`
@@ -141,13 +141,13 @@ log("line 9")
 ```
 Below code will have following output. You can see that after `end_section()`, `line 7` and following log go back one level's indent, `line 9` and following log also go back one level's indent.
 <div align="center">
-<img src="images/end_section_example.png" width="350">
+<img src="https://s1.ax1x.com/2020/08/15/dko7Y8.png" width="350">
 </div>
 
 ### 3.3  Header/Tailer information control
 In a test report, following figure shows the header and tailer information position:
 <div align="center">
-<img src="images/header_tailer_info.png" width="550">
+<img src="https://s1.ax1x.com/2020/08/15/dkoLlQ.png" width="550">
 </div>
 
 You can use following functions to control the output of Header/Tailer information:
@@ -169,7 +169,7 @@ header_info["Reviewer"] = "Eason"
 * `Skip(message)`: Same as `log("Skip:", message, color="green", style="highlight")`
 * `wait(duration)`: Wait `duration` seconds. If `duration` is greater than 10, The progress bar will pop out to indicate progress and time remain. Just like following figure:
 <div align="center">
-<img src="images/wait.png" width="500">
+<img src="https://s1.ax1x.com/2020/08/15/dkovmn.png" width="500">
 </div>
 
 * `wait_until(expression, timeout = 480, interval = 0.1, must = False)`: Wait until `<expression>` becomes True. If time waited more than `timeout`, it will stop waiting. `interval` indicate the time interval between two times `eval` of `<expression>`. If `must` is True, it will raise an `AssertionError` when timeout is reached.  
@@ -182,7 +182,7 @@ please("reboot machine 1")
 ```
 Then it will pop out following window and wait you finish manual operation then click `OK` button.
 <div align="center">
-<img src="images/please.png" width="200">
+<img src="https://s1.ax1x.com/2020/08/15/dkoOyj.png" width="200">
 </div>
 
 * `please_check(something)`:  
@@ -190,7 +190,7 @@ Pop out a window to indicate you to do some manual check. This window will have 
     * If you click `Yes`, it will log "<font color="green">Pass: (&lt;somthing&gt;) is True</font>".
     * If you click `No`, it will log "<font color="red">Fail: (&lt;something&gt;) is False</font>".
 <div align="center">
-<img src="images/please_check.png" width="200">
+<img src="https://s1.ax1x.com/2020/08/15/dkoXOs.png" width="200">
 </div>
 
 * `say(message)`: You can use `say` to speak out message.
@@ -199,7 +199,7 @@ Pop out a window to indicate you to do some manual check. This window will have 
 
 * `color_on()`: To turn on coloring console output. If your console out is just like following figure:
 <div align="center">
-<img src="images/mass.png" width="400">
+<img src="https://s1.ax1x.com/2020/08/15/dkoqSg.png" width="400">
 </div>
 
 that means your console not support ASCII escape characters. Please use `color_off()` to turn off color. The default coloring print status is enabled.
@@ -239,7 +239,7 @@ A file with `.linfo` expand name is also generated. This file is same as `.info`
 1. Firstly please install `Log Highlight` plugin in Sublime Text
 2. Click Preferences->Package Settings->Log Highlight->Settings. Just like following figure
 <div align="center">
-<img src="images/loghighlight_setting.png" width="500">
+<img src="https://s1.ax1x.com/2020/08/15/dkoTFf.png" width="500">
 </div>
 
 3. Copy following code in `Log Highlight.sublime-settings -- User` file then save:
@@ -586,5 +586,5 @@ A file with `.linfo` expand name is also generated. This file is same as `.info`
 7. Open a `*.linfo` file with Sublime Text.
 8. Double click a line, then it will jump to calling place. Just like following gif:
 <div align="center">
-<img src="images/jump.gif" width="700">
+<img src="https://s1.ax1x.com/2020/08/15/dkozT0.gif" width="700">
 </div>
