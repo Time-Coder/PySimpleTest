@@ -245,337 +245,337 @@ A file with `.linfo` expand name is also generated. This file is same as `.info`
 3. Copy following code in `Log Highlight.sublime-settings -- User` file then save:
 <details>
 	<summary>See Code</summary>
-	
+
 ```
 {
-	"context_menu": true,
-	"auto_highlight" : true,
-	"auto_highlight_output_panel": ["exec"],
+    "context_menu": true,
+    "auto_highlight" : true,
+    "auto_highlight_output_panel": ["exec"],
 
-	"log_list" :
-	{
-		"test_report" :
-		{
-			"type"         : "compile",
-			"extension"    : [ "*.log", "*.info" ],
-			"output.panel" : [ "" ],
-			"use_link"     : true,
-			"search_base":
-			{
-				"enable"        : true,
-				"ignore_dir"    : [""],
-				"max_scan_path" : 1000,
-			},
-			"bookmark" :
-			{
-				"enable"     : true,
-				"goto_error" : false,
-			},
-			"severity" :
-			{
-				"fail" :
-				{
-					"enable"  : true,
-					"pattern" :
-					[
-						[ "^\\s*Fail: ", "[\\r\\n]" ],
-					],
-					"color" :
-					{
-						"base"  : ["#F92672", ""],
-						"link"  : ["#F8F8F2", ""],
-						"quote" : ["#F92672", ""],
-					},
-				},
-				"failed" :
-				{
-					"enable"  : true,
-					"pattern" :
-					[
-						[ "^Failed: [1-9]", "[\\r\\n]" ],
-					],
-					"color" :
-					{
-						"base"  : ["#F92672", ""],
-						"link"  : ["#F8F8F2", ""],
-						"quote" : ["#F92672", ""],
-					},
-				},
-				"failed0" :
-				{
-					"enable"  : true,
-					"pattern" :
-					[
-						[ "^Failed: 0", "[\\r\\n]" ],
-					],
-					"color" :
-					{
-						"base"  : ["#A6E22C", ""],
-						"link"  : ["#F8F8F2", ""],
-						"quote" : ["#A6E22C", ""]
-					},
-				},
-				"pass" :
-				{
-					"enable"  : true,
-					"pattern" :
-					[
-						[ "^\\s*Pass: ", "[\\r\\n]" ],
-						[ "^\\s*Skip: ", "[\\r\\n]" ]
-					],
-					"color" :
-					{
-						"base"  : ["#A6E22C", ""],
-						"link"  : ["#F8F8F2", ""],
-						"quote" : ["#A6E22C", ""]
-					},
-				},
-				"passed" :
-				{
-					"enable"  : true,
-					"pattern" :
-					[
-						[ "^Passed: ", "[\\r\\n]" ]
-					],
-					"color" :
-					{
-						"base"  : ["#A6E22C", ""],
-						"link"  : ["#F8F8F2", ""],
-						"quote" : ["#A6E22C", ""]
-					},
-				},
-				"info" :
-				{
-					"enable"  : true,
-					"pattern" :
-					[
-						[ "^\\S.*(?<!Pass|Fail|Summary|Total|Passed|Failed|Result): \\S", "[\\r\\n]" ],
-						[ "^\\s*([0-9])+(.([0-9])+)*  \\S", "[\\r\\n]" ],
-						[ "^\\s*Section ([0-9])+(.([0-9])+)*  \\S", "[\\r\\n]" ],
-						[ "^\\s*\\[ ", " \\]" ],
-					],
-					"color" :
-					{
-						"base"  : ["#67D8EF", ""],
-						"link"  : ["#F8F8F2", ""],
-						"quote" : ["#67D8EF", ""]
-					},
-				},
-				"sum" :
-				{
-					"enable"  : true,
-					"pattern" :
-					[
-						[ "^Total: [0-9]?", "[\\r\\n]" ]
-					],
-					"color" :
-					{
-						"base"  : ["#67D8EF", ""],
-						"link"  : ["#F8F8F2", ""],
-						"quote" : ["#67D8EF", ""]
-					},
-				},
-				"result_pass":
-				{
-					"enable"  : true,
-					"pattern" :
-					[
-						[ "^Result: Pass", "[\\r\\n]" ],
-					],
-					"color" :
-					{
-						"base"  : ["#A6E22C", ""],
-						"link"  : ["#F8F8F2", ""],
-						"quote" : ["#A6E22C", ""]
-					},
-				},
-				"result_fail":
-				{
-					"enable"  : true,
-					"pattern" :
-					[
-						[ "^Result: (Fail|Error)", "[\\r\\n]" ],
-					],
-					"color" :
-					{
-						"base"  : ["#F92672", ""],
-						"link"  : ["#F8F8F2", ""],
-						"quote" : ["#F92672", ""],
-					},
-				}
-			},
-			"theme":
-			{
-				"foreground"      : "#F8F8F2",
-				"background"      : "#282923",
-				"caret"           : "#F8F8F2",
-				"selection"       : "#48473D",
-				"selectionBorder" : "#181E26",
-				"lineHighlight"   : "#3A392F"
-			}
-		},
+    "log_list" :
+    {
+        "test_report" :
+        {
+            "type"         : "compile",
+            "extension"    : [ "*.log", "*.info" ],
+            "output.panel" : [ "" ],
+            "use_link"     : true,
+            "search_base":
+            {
+                "enable"        : true,
+                "ignore_dir"    : [""],
+                "max_scan_path" : 1000,
+            },
+            "bookmark" :
+            {
+                "enable"     : true,
+                "goto_error" : false,
+            },
+            "severity" :
+            {
+                "fail" :
+                {
+                    "enable"  : true,
+                    "pattern" :
+                    [
+                        [ "^\\s*Fail: ", "[\\r\\n]" ],
+                    ],
+                    "color" :
+                    {
+                        "base"  : ["#F92672", ""],
+                        "link"  : ["#F8F8F2", ""],
+                        "quote" : ["#F92672", ""],
+                    },
+                },
+                "failed" :
+                {
+                    "enable"  : true,
+                    "pattern" :
+                    [
+                        [ "^Failed: [1-9]", "[\\r\\n]" ],
+                    ],
+                    "color" :
+                    {
+                        "base"  : ["#F92672", ""],
+                        "link"  : ["#F8F8F2", ""],
+                        "quote" : ["#F92672", ""],
+                    },
+                },
+                "failed0" :
+                {
+                    "enable"  : true,
+                    "pattern" :
+                    [
+                        [ "^Failed: 0", "[\\r\\n]" ],
+                    ],
+                    "color" :
+                    {
+                        "base"  : ["#A6E22C", ""],
+                        "link"  : ["#F8F8F2", ""],
+                        "quote" : ["#A6E22C", ""]
+                    },
+                },
+                "pass" :
+                {
+                    "enable"  : true,
+                    "pattern" :
+                    [
+                        [ "^\\s*Pass: ", "[\\r\\n]" ],
+                        [ "^\\s*Skip: ", "[\\r\\n]" ]
+                    ],
+                    "color" :
+                    {
+                        "base"  : ["#A6E22C", ""],
+                        "link"  : ["#F8F8F2", ""],
+                        "quote" : ["#A6E22C", ""]
+                    },
+                },
+                "passed" :
+                {
+                    "enable"  : true,
+                    "pattern" :
+                    [
+                        [ "^Passed: ", "[\\r\\n]" ]
+                    ],
+                    "color" :
+                    {
+                        "base"  : ["#A6E22C", ""],
+                        "link"  : ["#F8F8F2", ""],
+                        "quote" : ["#A6E22C", ""]
+                    },
+                },
+                "info" :
+                {
+                    "enable"  : true,
+                    "pattern" :
+                    [
+                        [ "^\\S.*(?<!Pass|Fail|Summary|Total|Passed|Failed|Result): \\S", "[\\r\\n]" ],
+                        [ "^\\s*([0-9])+(.([0-9])+)*  \\S", "[\\r\\n]" ],
+                        [ "^\\s*Section ([0-9])+(.([0-9])+)*  \\S", "[\\r\\n]" ],
+                        [ "^\\s*\\[ ", " \\]" ],
+                    ],
+                    "color" :
+                    {
+                        "base"  : ["#67D8EF", ""],
+                        "link"  : ["#F8F8F2", ""],
+                        "quote" : ["#67D8EF", ""]
+                    },
+                },
+                "sum" :
+                {
+                    "enable"  : true,
+                    "pattern" :
+                    [
+                        [ "^Total: [0-9]?", "[\\r\\n]" ]
+                    ],
+                    "color" :
+                    {
+                        "base"  : ["#67D8EF", ""],
+                        "link"  : ["#F8F8F2", ""],
+                        "quote" : ["#67D8EF", ""]
+                    },
+                },
+                "result_pass":
+                {
+                    "enable"  : true,
+                    "pattern" :
+                    [
+                        [ "^Result: Pass", "[\\r\\n]" ],
+                    ],
+                    "color" :
+                    {
+                        "base"  : ["#A6E22C", ""],
+                        "link"  : ["#F8F8F2", ""],
+                        "quote" : ["#A6E22C", ""]
+                    },
+                },
+                "result_fail":
+                {
+                    "enable"  : true,
+                    "pattern" :
+                    [
+                        [ "^Result: (Fail|Error)", "[\\r\\n]" ],
+                    ],
+                    "color" :
+                    {
+                        "base"  : ["#F92672", ""],
+                        "link"  : ["#F8F8F2", ""],
+                        "quote" : ["#F92672", ""],
+                    },
+                }
+            },
+            "theme":
+            {
+                "foreground"      : "#F8F8F2",
+                "background"      : "#282923",
+                "caret"           : "#F8F8F2",
+                "selection"       : "#48473D",
+                "selectionBorder" : "#181E26",
+                "lineHighlight"   : "#3A392F"
+            }
+        },
 
-		"test_link_report" :
-		{
-			"type"         : "compile",
-			"extension"    : [ "*.linfo" ],
-			"output.panel" : [ "" ],
-			"use_link"     : true,
-			"search_base":
-			{
-				"enable"        : true,
-				"ignore_dir"    : [""],
-				"max_scan_path" : 1000,
-			},
-			"bookmark" :
-			{
-				"enable"     : true,
-				"goto_error" : false,
-			},
-			"severity" :
-			{
-				"fail" :
-				{
-					"enable"  : true,
-					"pattern" :
-					[
-						[ "^{{{LINK}}} *\\|   *Fail: ", "[\\r\\n]" ],
-					],
-					"color" :
-					{
-						"base"  : ["#F92672", ""],
-						"link"  : ["#F8F8F2", ""],
-						"quote" : ["#F92672", ""],
-					},
-				},
-				"failed" :
-				{
-					"enable"  : true,
-					"pattern" :
-					[
-						[ "^{{{LINK}}} *\\|  Failed: [1-9]", "[\\r\\n]" ],
-					],
-					"color" :
-					{
-						"base"  : ["#F92672", ""],
-						"link"  : ["#F8F8F2", ""],
-						"quote" : ["#F92672", ""],
-					},
-				},
-				"failed0" :
-				{
-					"enable"  : true,
-					"pattern" :
-					[
-						[ "^{{{LINK}}} *\\|  Failed: 0", "[\\r\\n]" ],
-					],
-					"color" :
-					{
-						"base"  : ["#A6E22C", ""],
-						"link"  : ["#F8F8F2", ""],
-						"quote" : ["#A6E22C", ""]
-					},
-				},
-				"pass" :
-				{
-					"enable"  : true,
-					"pattern" :
-					[
-						[ "^{{{LINK}}} *\\|   *Pass: ", "[\\r\\n]" ],
-						[ "^{{{LINK}}} *\\|   *Skip: ", "[\\r\\n]" ]
-					],
-					"color" :
-					{
-						"base"  : ["#A6E22C", ""],
-						"link"  : ["#F8F8F2", ""],
-						"quote" : ["#A6E22C", ""]
-					},
-				},
-				"passed" :
-				{
-					"enable"  : true,
-					"pattern" :
-					[
-						[ "^{{{LINK}}} *\\|  Passed: ", "[\\r\\n]" ]
-					],
-					"color" :
-					{
-						"base"  : ["#A6E22C", ""],
-						"link"  : ["#F8F8F2", ""],
-						"quote" : ["#A6E22C", ""]
-					},
-				},
-				"info" :
-				{
-					"enable"  : true,
-					"pattern" :
-					[
-						[ "^{{{LINK}}} *\\|  \\S.*(?<!Pass|Fail|Summary|Total|Passed|Failed|Result): \\S", "[\\r\\n]" ],
-						[ "^{{{LINK}}} *\\|   *Section ([0-9])+(.([0-9])+)*  \\S", "[\\r\\n]" ],
-						[ "^{{{LINK}}} *\\|   *([0-9])+(.([0-9])+)*  \\S", "[\\r\\n]" ],
-						[ "^{{{LINK}}} *\\|   *\\[ ", " \\]" ],
-					],
-					"color" :
-					{
-						"base"  : ["#67D8EF", ""],
-						"link"  : ["#F8F8F2", ""],
-						"quote" : ["#67D8EF", ""]
-					},
-				},
-				"sum" :
-				{
-					"enable"  : true,
-					"pattern" :
-					[
-						[ "^{{{LINK}}} *\\|  Total: [0-9]?", "[\\r\\n]" ]
-					],
-					"color" :
-					{
-						"base"  : ["#67D8EF", ""],
-						"link"  : ["#F8F8F2", ""],
-						"quote" : ["#67D8EF", ""]
-					},
-				},
-				"result_pass":
-				{
-					"enable"  : true,
-					"pattern" :
-					[
-						[ "^{{{LINK}}} *\\|  Result: Pass$", "[\\r\\n]" ],
-					],
-					"color" :
-					{
-						"base"  : ["#A6E22C", ""],
-						"link"  : ["#F8F8F2", ""],
-						"quote" : ["#A6E22C", ""]
-					},
-				},
-				"result_fail":
-				{
-					"enable"  : true,
-					"pattern" :
-					[
-						[ "^{{{LINK}}} *\\|  Result: (Fail|Error)$", "[\\r\\n]" ],
-					],
-					"color" :
-					{
-						"base"  : ["#F92672", ""],
-						"link"  : ["#F8F8F2", ""],
-						"quote" : ["#F92672", ""],
-					},
-				}
-			},
-			"theme":
-			{
-				"foreground"      : "#F8F8F2",
-				"background"      : "#282923",
-				"caret"           : "#F8F8F2",
-				"selection"       : "#48473D",
-				"selectionBorder" : "#181E26",
-				"lineHighlight"   : "#3A392F"
-			}
-		}
-	}
+        "test_link_report" :
+        {
+            "type"         : "compile",
+            "extension"    : [ "*.linfo" ],
+            "output.panel" : [ "" ],
+            "use_link"     : true,
+            "search_base":
+            {
+                "enable"        : true,
+                "ignore_dir"    : [""],
+                "max_scan_path" : 1000,
+            },
+            "bookmark" :
+            {
+                "enable"     : true,
+                "goto_error" : false,
+            },
+            "severity" :
+            {
+                "fail" :
+                {
+                    "enable"  : true,
+                    "pattern" :
+                    [
+                        [ "^{{{LINK}}} *\\|   *Fail: ", "[\\r\\n]" ],
+                    ],
+                    "color" :
+                    {
+                        "base"  : ["#F92672", ""],
+                        "link"  : ["#F8F8F2", ""],
+                        "quote" : ["#F92672", ""],
+                    },
+                },
+                "failed" :
+                {
+                    "enable"  : true,
+                    "pattern" :
+                    [
+                        [ "^{{{LINK}}} *\\|  Failed: [1-9]", "[\\r\\n]" ],
+                    ],
+                    "color" :
+                    {
+                        "base"  : ["#F92672", ""],
+                        "link"  : ["#F8F8F2", ""],
+                        "quote" : ["#F92672", ""],
+                    },
+                },
+                "failed0" :
+                {
+                    "enable"  : true,
+                    "pattern" :
+                    [
+                        [ "^{{{LINK}}} *\\|  Failed: 0", "[\\r\\n]" ],
+                    ],
+                    "color" :
+                    {
+                        "base"  : ["#A6E22C", ""],
+                        "link"  : ["#F8F8F2", ""],
+                        "quote" : ["#A6E22C", ""]
+                    },
+                },
+                "pass" :
+                {
+                    "enable"  : true,
+                    "pattern" :
+                    [
+                        [ "^{{{LINK}}} *\\|   *Pass: ", "[\\r\\n]" ],
+                        [ "^{{{LINK}}} *\\|   *Skip: ", "[\\r\\n]" ]
+                    ],
+                    "color" :
+                    {
+                        "base"  : ["#A6E22C", ""],
+                        "link"  : ["#F8F8F2", ""],
+                        "quote" : ["#A6E22C", ""]
+                    },
+                },
+                "passed" :
+                {
+                    "enable"  : true,
+                    "pattern" :
+                    [
+                        [ "^{{{LINK}}} *\\|  Passed: ", "[\\r\\n]" ]
+                    ],
+                    "color" :
+                    {
+                        "base"  : ["#A6E22C", ""],
+                        "link"  : ["#F8F8F2", ""],
+                        "quote" : ["#A6E22C", ""]
+                    },
+                },
+                "info" :
+                {
+                    "enable"  : true,
+                    "pattern" :
+                    [
+                        [ "^{{{LINK}}} *\\|  \\S.*(?<!Pass|Fail|Summary|Total|Passed|Failed|Result): \\S", "[\\r\\n]" ],
+                        [ "^{{{LINK}}} *\\|   *Section ([0-9])+(.([0-9])+)*  \\S", "[\\r\\n]" ],
+                        [ "^{{{LINK}}} *\\|   *([0-9])+(.([0-9])+)*  \\S", "[\\r\\n]" ],
+                        [ "^{{{LINK}}} *\\|   *\\[ ", " \\]" ],
+                    ],
+                    "color" :
+                    {
+                        "base"  : ["#67D8EF", ""],
+                        "link"  : ["#F8F8F2", ""],
+                        "quote" : ["#67D8EF", ""]
+                    },
+                },
+                "sum" :
+                {
+                    "enable"  : true,
+                    "pattern" :
+                    [
+                        [ "^{{{LINK}}} *\\|  Total: [0-9]?", "[\\r\\n]" ]
+                    ],
+                    "color" :
+                    {
+                        "base"  : ["#67D8EF", ""],
+                        "link"  : ["#F8F8F2", ""],
+                        "quote" : ["#67D8EF", ""]
+                    },
+                },
+                "result_pass":
+                {
+                    "enable"  : true,
+                    "pattern" :
+                    [
+                        [ "^{{{LINK}}} *\\|  Result: Pass$", "[\\r\\n]" ],
+                    ],
+                    "color" :
+                    {
+                        "base"  : ["#A6E22C", ""],
+                        "link"  : ["#F8F8F2", ""],
+                        "quote" : ["#A6E22C", ""]
+                    },
+                },
+                "result_fail":
+                {
+                    "enable"  : true,
+                    "pattern" :
+                    [
+                        [ "^{{{LINK}}} *\\|  Result: (Fail|Error)$", "[\\r\\n]" ],
+                    ],
+                    "color" :
+                    {
+                        "base"  : ["#F92672", ""],
+                        "link"  : ["#F8F8F2", ""],
+                        "quote" : ["#F92672", ""],
+                    },
+                }
+            },
+            "theme":
+            {
+                "foreground"      : "#F8F8F2",
+                "background"      : "#282923",
+                "caret"           : "#F8F8F2",
+                "selection"       : "#48473D",
+                "selectionBorder" : "#181E26",
+                "lineHighlight"   : "#3A392F"
+            }
+        }
+    }
 }
 ```
 </details>
