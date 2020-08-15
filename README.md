@@ -245,6 +245,7 @@ A file with `.linfo` expand name is also generated. This file is same as `.info`
 3. Copy following code in `Log Highlight.sublime-settings -- User` file then save:
 <details>
 	<summary>See Code</summary>
+	
 ```
 {
 	"context_menu": true,
