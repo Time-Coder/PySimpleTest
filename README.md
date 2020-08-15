@@ -114,7 +114,7 @@ should_be_equal(eval("(6-2)*5"), 20)
 ```
 Below code will have following output:
 <div align="center">
-<img src="images/section_example.png" width="550">
+<img src="/images/section_example.png" width="550">
 </div>
 * `subsection(name)`: Same as `section(name, level = 2)`
 * `subsubsection(name)`: Same as `section(name, level = 3)`
