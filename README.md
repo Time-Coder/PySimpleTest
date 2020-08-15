@@ -15,7 +15,7 @@ If you are suffering from writting just a simple for loop in **Robot Framework**
 * Log file with link information. If you use editor like Sublime, can realize double-click test report line to jump to corresponding code.
 
 So for writting small test, PySimpleTest is a good choice.
-
+![dkozT0.gif](https://s1.ax1x.com/2020/08/15/dkozT0.gif)
 ## 2  Getting Start
 Write a file `main.py`:
 ```
