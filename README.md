@@ -169,6 +169,7 @@ header_info["Reviewer"] = "Eason"
 <div align="center">
 <img src="images/wait.png" width="500">
 </div>
+
 * `wait_until(expression, timeout = 480, interval = 0.1, must = False)`: Wait until `<expression>` becomes True. If time waited more than `timeout`, it will stop waiting. `interval` indicate the time interval between two times `eval` of `<expression>`. If `must` is True, it will raise an `AssertionError` when timeout is reached.  
 (<font color="red">**Note:**</font> this function can only work after you [enable enhance function](#enhance))
 * `wait_until_not(expression, timeout = 480, interval = 0.1, must = False)`: Similar with `wait_until`. Just to wait `<expression>` become False.  
@@ -181,6 +182,7 @@ Then it will pop out following window and wait you finish manual operation then 
 <div align="center">
 <img src="images/please.png" width="200">
 </div>
+
 * `please_check(something)`:  
 Pop out a window to indicate you to do some manual check. This window will have two buttons: `Yes` and `No`:
     * If you click `Yes`, it will log "<font color="green">Pass: (&lt;somthing&gt;) is True</font>".
@@ -188,6 +190,7 @@ Pop out a window to indicate you to do some manual check. This window will have 
 <div align="center">
 <img src="images/please_check.png" width="200">
 </div>
+
 * `say(message)`: You can use `say` to speak out message.
 
 ### 3.5  Configuration System
