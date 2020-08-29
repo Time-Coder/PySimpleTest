@@ -41,6 +41,8 @@ So what functions can I use just like `should_be_equal` and `should_be_less`? Se
 This section will introduce all functions provided by `PySimpleTest`
 
 ### 3.1  Assertion System
+For all assertion functions, will return `True` when Pass, return `False` when Fail. These function are listed below:
+
 * `should_be_true(expression)`:  
 If `expression` is True, it will print "<font color="green">Pass: (&lt;expression&gt;) is True</font>" and log in three output files.  
 Else "<font color="red">Fail: (&lt;expression&gt;) is False</font>" will be printed and logged.
@@ -112,7 +114,7 @@ section("eval math expression", level = 2)
 should_be_equal(eval("3 + 5*2"), 13)
 should_be_equal(eval("(6-2)*5"), 20)
 ```
-Below code will have following output:
+Above code will have following output:
 <div align="center">
 <img src="https://s1.ax1x.com/2020/08/15/dkoxwq.png" width="550">
 </div>
@@ -138,7 +140,7 @@ log("line 8")
 end_section()
 log("line 9")
 ```
-Below code will have following output. You can see that after `end_section()`, `line 7` and following log go back one level's indent, `line 9` and following log also go back one level's indent.
+Above code will have following output. You can see that after `end_section()`, `line 7` and following log go back one level's indent, `line 9` and following log also go back one level's indent.
 <div align="center">
 <img src="https://s1.ax1x.com/2020/08/15/dko7Y8.png" width="350">
 </div>
@@ -231,10 +233,18 @@ All supported arguments description are list here:
 * `--version <ver>`: to specify product version logged in log file. Just like use `version(ver)` inside script.
 * `--url <link>`: to specify url link logged in log file. Just like use `url(link)` inside script.
 
-## 5  <label id="sec_External_Configuration">External Configuration</label>
-A file with `.linfo` expand name is also generated. This file is same as `.info` file but with additional link information. So `linfo` is the abbreviation of "link info". The link information is just like `<file_name>:<line_number>`. It's used for double click then jump to script calling place. But this need editor's support. This section will introduce how to implement double click jump in different editors.
+## 5  Exit Code
+In your console, Python program with PySimpleTest module will exit with 5 kind of exit code:
 
-### 5.1  Sublime Text
+* exit code `0`: All assertions passed.
+* exit code `1`: Some assertions failed.
+* exit code `2`: User killed with `Ctrl + C`.
+* exit code `3`: Inner exception raised.
+* exit code `5`: No assertion.
+
+## 6  <label id="sec_External_Configuration">External Configuration</label>
+A file with `.linfo` expand name is also generated. This file is same as `.info` file but with additional link information. So `linfo` is the abbreviation of "link info". The link information is just like `<file_name>:<line_number>`. It's used for double click then jump to script calling place. But this need external editor's support. This section will introduce how to implement double click jump in editor `Sublime Text`.
+
 1. Firstly please install `Log Highlight` plugin in Sublime Text
 2. Click Preferences->Package Settings->Log Highlight->Settings. Just like following figure
 <div align="center">
@@ -253,7 +263,7 @@ A file with `.linfo` expand name is also generated. This file is same as `.info`
 
     "log_list" :
     {
-        "test_report" :
+        "PySimpleTest_log_info" :
         {
             "type"         : "compile",
             "extension"    : [ "*.log", "*.info" ],
@@ -275,44 +285,20 @@ A file with `.linfo` expand name is also generated. This file is same as `.info`
                 "fail" :
                 {
                     "enable"  : true,
-                    "pattern" :
-                    [
-                        [ "^\\s*Fail: ", "[\\r\\n]" ],
-                    ],
-                    "color" :
-                    {
-                        "base"  : ["#F92672", ""],
-                        "link"  : ["#F8F8F2", ""],
-                        "quote" : ["#F92672", ""],
-                    },
+                    "pattern" : [[ "^\\s*Fail: ", "[\\r\\n]" ]],
+                    "color" : {"base"  : ["#F92672", ""]}
                 },
                 "failed" :
                 {
                     "enable"  : true,
-                    "pattern" :
-                    [
-                        [ "^Failed: [1-9]", "[\\r\\n]" ],
-                    ],
-                    "color" :
-                    {
-                        "base"  : ["#F92672", ""],
-                        "link"  : ["#F8F8F2", ""],
-                        "quote" : ["#F92672", ""],
-                    },
+                    "pattern" : [[ "^Failed: [1-9]", "[\\r\\n]" ]],
+                    "color" : {"base"  : ["#F92672", ""]}
                 },
                 "failed0" :
                 {
                     "enable"  : true,
-                    "pattern" :
-                    [
-                        [ "^Failed: 0", "[\\r\\n]" ],
-                    ],
-                    "color" :
-                    {
-                        "base"  : ["#A6E22C", ""],
-                        "link"  : ["#F8F8F2", ""],
-                        "quote" : ["#A6E22C", ""]
-                    },
+                    "pattern" : [[ "^Failed: 0", "[\\r\\n]" ]],
+                    "color" : {"base"  : ["#A6E22C", ""]}
                 },
                 "pass" :
                 {
@@ -322,26 +308,19 @@ A file with `.linfo` expand name is also generated. This file is same as `.info`
                         [ "^\\s*Pass: ", "[\\r\\n]" ],
                         [ "^\\s*Skip: ", "[\\r\\n]" ]
                     ],
-                    "color" :
-                    {
-                        "base"  : ["#A6E22C", ""],
-                        "link"  : ["#F8F8F2", ""],
-                        "quote" : ["#A6E22C", ""]
-                    },
+                    "color" : {"base"  : ["#A6E22C", ""]}
                 },
                 "passed" :
                 {
                     "enable"  : true,
-                    "pattern" :
-                    [
-                        [ "^Passed: ", "[\\r\\n]" ]
-                    ],
-                    "color" :
-                    {
-                        "base"  : ["#A6E22C", ""],
-                        "link"  : ["#F8F8F2", ""],
-                        "quote" : ["#A6E22C", ""]
-                    },
+                    "pattern" :[[ "^Passed: [1-9]", "[\\r\\n]" ]],
+                    "color" : {"base"  : ["#A6E22C", ""]}
+                },
+                "passed0" :
+                {
+                    "enable"  : true,
+                    "pattern" :[[ "^Passed: 0", "[\\r\\n]" ]],
+                    "color" : {"base"  : ["#F92672", ""]}
                 },
                 "info" :
                 {
@@ -350,57 +329,28 @@ A file with `.linfo` expand name is also generated. This file is same as `.info`
                     [
                         [ "^\\S.*(?<!Pass|Fail|Summary|Total|Passed|Failed|Result): \\S", "[\\r\\n]" ],
                         [ "^\\s*([0-9])+(.([0-9])+)*  \\S", "[\\r\\n]" ],
-                        [ "^\\s*Section ([0-9])+(.([0-9])+)*  \\S", "[\\r\\n]" ],
+                        [ "^\\s*Section ([0-9])+(.([0-9])+)*", "[\\r\\n]" ],
                         [ "^\\s*\\[ ", " \\]" ],
                     ],
-                    "color" :
-                    {
-                        "base"  : ["#67D8EF", ""],
-                        "link"  : ["#F8F8F2", ""],
-                        "quote" : ["#67D8EF", ""]
-                    },
+                    "color" : {"base"  : ["#67D8EF", ""]}
                 },
                 "sum" :
                 {
                     "enable"  : true,
-                    "pattern" :
-                    [
-                        [ "^Total: [0-9]?", "[\\r\\n]" ]
-                    ],
-                    "color" :
-                    {
-                        "base"  : ["#67D8EF", ""],
-                        "link"  : ["#F8F8F2", ""],
-                        "quote" : ["#67D8EF", ""]
-                    },
+                    "pattern" :[[ "^Total: [0-9]?", "[\\r\\n]" ]],
+                    "color" : {"base"  : ["#67D8EF", ""]}
                 },
                 "result_pass":
                 {
                     "enable"  : true,
-                    "pattern" :
-                    [
-                        [ "^Result: Pass", "[\\r\\n]" ],
-                    ],
-                    "color" :
-                    {
-                        "base"  : ["#A6E22C", ""],
-                        "link"  : ["#F8F8F2", ""],
-                        "quote" : ["#A6E22C", ""]
-                    },
+                    "pattern" :[[ "^Result: Pass", "[\\r\\n]" ]],
+                    "color" : {"base"  : ["#A6E22C", ""]}
                 },
                 "result_fail":
                 {
                     "enable"  : true,
-                    "pattern" :
-                    [
-                        [ "^Result: (Fail|Error)", "[\\r\\n]" ],
-                    ],
-                    "color" :
-                    {
-                        "base"  : ["#F92672", ""],
-                        "link"  : ["#F8F8F2", ""],
-                        "quote" : ["#F92672", ""],
-                    },
+                    "pattern" :[[ "^Result: (Fail|Error)", "[\\r\\n]" ]],
+                    "color" : {"base"  : ["#F92672", ""]}
                 }
             },
             "theme":
@@ -414,7 +364,7 @@ A file with `.linfo` expand name is also generated. This file is same as `.info`
             }
         },
 
-        "test_link_report" :
+        "PySimpleTest_linfo" :
         {
             "type"         : "compile",
             "extension"    : [ "*.linfo" ],
@@ -433,135 +383,81 @@ A file with `.linfo` expand name is also generated. This file is same as `.info`
             },
             "severity" :
             {
+                "link":
+                {
+                    "enable"  : true,
+                    "pattern" :[[ "^{{{LINK}}}", " " ]],
+                    "color" : {"base"  : ["#AC80FF", ""]}
+                },
                 "fail" :
                 {
                     "enable"  : true,
-                    "pattern" :
-                    [
-                        [ "^{{{LINK}}} *\\|   *Fail: ", "[\\r\\n]" ],
-                    ],
-                    "color" :
-                    {
-                        "base"  : ["#F92672", ""],
-                        "link"  : ["#F8F8F2", ""],
-                        "quote" : ["#F92672", ""],
-                    },
+                    "pattern" :[[ "\\|   *Fail: ", "[\\r\\n]" ]],
+                    "color" : {"base"  : ["#F92672", ""]}
                 },
                 "failed" :
                 {
                     "enable"  : true,
-                    "pattern" :
-                    [
-                        [ "^{{{LINK}}} *\\|  Failed: [1-9]", "[\\r\\n]" ],
-                    ],
-                    "color" :
-                    {
-                        "base"  : ["#F92672", ""],
-                        "link"  : ["#F8F8F2", ""],
-                        "quote" : ["#F92672", ""],
-                    },
+                    "pattern" :[[ "\\|  Failed: [1-9]", "[\\r\\n]" ]],
+                    "color" : {"base"  : ["#F92672", ""]}
                 },
                 "failed0" :
                 {
                     "enable"  : true,
-                    "pattern" :
-                    [
-                        [ "^{{{LINK}}} *\\|  Failed: 0", "[\\r\\n]" ],
-                    ],
-                    "color" :
-                    {
-                        "base"  : ["#A6E22C", ""],
-                        "link"  : ["#F8F8F2", ""],
-                        "quote" : ["#A6E22C", ""]
-                    },
+                    "pattern" :[[ "\\|  Failed: 0", "[\\r\\n]" ]],
+                    "color" : {"base"  : ["#A6E22C", ""]}
                 },
                 "pass" :
                 {
                     "enable"  : true,
                     "pattern" :
                     [
-                        [ "^{{{LINK}}} *\\|   *Pass: ", "[\\r\\n]" ],
-                        [ "^{{{LINK}}} *\\|   *Skip: ", "[\\r\\n]" ]
+                        [ "\\|   *Pass: ", "[\\r\\n]" ],
+                        [ "\\|   *Skip: ", "[\\r\\n]" ]
                     ],
-                    "color" :
-                    {
-                        "base"  : ["#A6E22C", ""],
-                        "link"  : ["#F8F8F2", ""],
-                        "quote" : ["#A6E22C", ""]
-                    },
+                    "color" : {"base"  : ["#A6E22C", ""]}
                 },
                 "passed" :
                 {
                     "enable"  : true,
-                    "pattern" :
-                    [
-                        [ "^{{{LINK}}} *\\|  Passed: ", "[\\r\\n]" ]
-                    ],
-                    "color" :
-                    {
-                        "base"  : ["#A6E22C", ""],
-                        "link"  : ["#F8F8F2", ""],
-                        "quote" : ["#A6E22C", ""]
-                    },
+                    "pattern" :[[ "\\|  Passed: [1-9]", "[\\r\\n]" ]],
+                    "color" : {"base"  : ["#A6E22C", ""]}
+                },
+                "passed0" :
+                {
+                    "enable"  : true,
+                    "pattern" :[[ "\\|  Passed: 0", "[\\r\\n]" ]],
+                    "color" : {"base"  : ["#F92672", ""]}
                 },
                 "info" :
                 {
                     "enable"  : true,
                     "pattern" :
                     [
-                        [ "^{{{LINK}}} *\\|  \\S.*(?<!Pass|Fail|Summary|Total|Passed|Failed|Result): \\S", "[\\r\\n]" ],
-                        [ "^{{{LINK}}} *\\|   *Section ([0-9])+(.([0-9])+)*  \\S", "[\\r\\n]" ],
-                        [ "^{{{LINK}}} *\\|   *([0-9])+(.([0-9])+)*  \\S", "[\\r\\n]" ],
-                        [ "^{{{LINK}}} *\\|   *\\[ ", " \\]" ],
+                        [ "\\|  \\S.*(?<!Pass|Fail|Summary|Total|Passed|Failed|Result): \\S", "[\\r\\n]" ],
+                        [ "\\|   *Section ([0-9])+(.([0-9])+)*", "[\\r\\n]" ],
+                        [ "\\|   *([0-9])+(.([0-9])+)*  \\S", "[\\r\\n]" ],
+                        [ "\\|   *\\[ ", " \\]" ],
                     ],
-                    "color" :
-                    {
-                        "base"  : ["#67D8EF", ""],
-                        "link"  : ["#F8F8F2", ""],
-                        "quote" : ["#67D8EF", ""]
-                    },
+                    "color" : {"base"  : ["#67D8EF", ""]}
                 },
                 "sum" :
                 {
                     "enable"  : true,
-                    "pattern" :
-                    [
-                        [ "^{{{LINK}}} *\\|  Total: [0-9]?", "[\\r\\n]" ]
-                    ],
-                    "color" :
-                    {
-                        "base"  : ["#67D8EF", ""],
-                        "link"  : ["#F8F8F2", ""],
-                        "quote" : ["#67D8EF", ""]
-                    },
+                    "pattern" : [[ "\\|  Total: [0-9]?", "[\\r\\n]" ]],
+                    "color" : {"base"  : ["#67D8EF", ""]}
                 },
                 "result_pass":
                 {
                     "enable"  : true,
-                    "pattern" :
-                    [
-                        [ "^{{{LINK}}} *\\|  Result: Pass$", "[\\r\\n]" ],
-                    ],
-                    "color" :
-                    {
-                        "base"  : ["#A6E22C", ""],
-                        "link"  : ["#F8F8F2", ""],
-                        "quote" : ["#A6E22C", ""]
-                    },
+                    "pattern" : [[ "\\|  Result: Pass$", "[\\r\\n]" ]],
+                    "color" : {"base"  : ["#A6E22C", ""]}
                 },
                 "result_fail":
                 {
                     "enable"  : true,
-                    "pattern" :
-                    [
-                        [ "^{{{LINK}}} *\\|  Result: (Fail|Error)$", "[\\r\\n]" ],
-                    ],
-                    "color" :
-                    {
-                        "base"  : ["#F92672", ""],
-                        "link"  : ["#F8F8F2", ""],
-                        "quote" : ["#F92672", ""],
-                    },
+                    "pattern" : [[ "\\|  Result: (Fail|Error)$", "[\\r\\n]" ]],
+                    "color" : {"base"  : ["#F92672", ""]}
                 }
             },
             "theme":

@@ -49,7 +49,7 @@ def should_keep_true(expression, time_delta, interval = 0.1):
 	if not expression:
 		Fail("(" + str_args[0] + ") doesn't keep True for " + str(time_delta) + " seconds.")
 		log("     (It is False at beginning.)", color="red", style="highlight")
-		return
+		return False
 
 	start_time = time.time()
 	if time_delta > 10:
@@ -59,7 +59,7 @@ def should_keep_true(expression, time_delta, interval = 0.1):
 				bar.close()
 				Fail("(" + str_args[0] + ") doesn't keep True for " + str(time_delta) + " seconds.")
 				log("     (It becomes False at " + str(round(time.time() - start_time, 2)) + " seconds.)", color="red", style="highlight")
-				return
+				return False
 			else:
 				elaspe = time.time() - start_time
 				bar.update(elaspe/time_delta)
@@ -71,20 +71,23 @@ def should_keep_true(expression, time_delta, interval = 0.1):
 			if not eval(str_args[0]):
 				Fail("(" + str_args[0] + ") doesn't keep True for " + str(time_delta) + " seconds.")
 				log("     (It becomes False at " + str(round(time.time() - start_time, 2)) + " seconds.)", color="red", style="highlight")
-				return
+				return False
 			else:
 				time.sleep(interval)
 
 	Pass("(" + str_args[0] + ") keeps True for " + str(time_delta) + " seconds.")
+	return True
 
 def must_keep_true(expression, time_delta, interval = 0.1):
 	str_args = get_actual_args_string()
 	interval = min(time_delta, interval)
 
 	if not expression:
-		Fail("(" + str_args[0] + ") doesn't keep True for " + str(time_delta) + " seconds.")
+		message = "(" + str_args[0] + ") doesn't keep True for " + str(time_delta) + " seconds."
+		Fail(message)
 		log("     (It is False at beginning.)", color="red", style="highlight")
-		raise AssertionError("(" + str_args[0] + ") doesn't keep True for " + str(time_delta) + " seconds.")
+		raise AssertionError(message)
+		return False
 
 	start_time = time.time()
 	if time_delta > 10:
@@ -92,9 +95,11 @@ def must_keep_true(expression, time_delta, interval = 0.1):
 		while time.time()-start_time <= time_delta:
 			if not eval(str_args[0]):
 				bar.close()
-				Fail("(" + str_args[0] + ") doesn't keep True for " + str(time_delta) + " seconds.")
+				message = "(" + str_args[0] + ") doesn't keep True for " + str(time_delta) + " seconds."
+				Fail(message)
 				log("     (It becomes False at " + str(round(time.time() - start_time, 2)) + " seconds.)", color="red", style="highlight")
-				raise AssertionError("(" + str_args[0] + ") doesn't keep True for " + str(time_delta) + " seconds.")
+				raise AssertionError(message)
+				return False
 			else:
 				elaspe = time.time() - start_time
 				bar.update(elaspe/time_delta)
@@ -104,13 +109,16 @@ def must_keep_true(expression, time_delta, interval = 0.1):
 	else:
 		while time.time()-start_time <= time_delta:
 			if not eval(str_args[0]):
-				Fail("(" + str_args[0] + ") doesn't keep True for " + str(time_delta) + " seconds.")
+				message = "(" + str_args[0] + ") doesn't keep True for " + str(time_delta) + " seconds."
+				Fail(message)
 				log("     (It becomes False at " + str(round(time.time() - start_time, 2)) + " seconds.)", color="red", style="highlight")
-				raise AssertionError("(" + str_args[0] + ") doesn't keep True for " + str(time_delta) + " seconds.")
+				raise AssertionError(message)
+				return False
 			else:
 				time.sleep(interval)
 
 	Pass("(" + str_args[0] + ") keeps True for " + str(time_delta) + " seconds.")
+	return True
 
 def should_keep_false(expression, time_delta, interval = 0.1):
 	str_args = get_actual_args_string()
@@ -119,7 +127,7 @@ def should_keep_false(expression, time_delta, interval = 0.1):
 	if expression:
 		Fail("(" + str_args[0] + ") doesn't keep False for " + str(time_delta) + " seconds.")
 		log("     (It's True at beginning.)")
-		return
+		return False
 
 	start_time = time.time()
 	if time_delta > 10:
@@ -129,7 +137,7 @@ def should_keep_false(expression, time_delta, interval = 0.1):
 				bar.close()
 				Fail("(" + str_args[0] + ") doesn't keep False for " + str(time_delta) + " seconds.")
 				log("     (It becomes True at " + str(round(time.time() - start_time, 2)) + " seconds.)", color="red", style="highlight")
-				return
+				return False
 			else:
 				elaspe = time.time() - start_time
 				bar.update(elaspe/time_delta)
@@ -141,21 +149,23 @@ def should_keep_false(expression, time_delta, interval = 0.1):
 			if eval(str_args[0]):
 				Fail("(" + str_args[0] + ") doesn't keep False for " + str(time_delta) + " seconds.")
 				log("     (It becomes True at " + str(round(time.time() - start_time, 2)) + " seconds.)", color="red", style="highlight")
-				return
+				return False
 			else:
 				time.sleep(interval)
 
 	Pass("(" + str_args[0] + ") keeps False for " + str(time_delta) + " seconds.")
+	return True
 
 def must_keep_false(expression, time_delta, interval = 0.1):
 	str_args = get_actual_args_string()
 	interval = min(time_delta, interval)
 
 	if expression:
-		Fail("(" + str_args[0] + ") doesn't keep False for " + str(time_delta) + " seconds.")
+		message = "(" + str_args[0] + ") doesn't keep False for " + str(time_delta) + " seconds."
+		Fail(message)
 		log("     (It's True at beginning.)", color="red", style="highlight")
-		raise AssertionError("\"" + str_args[0] + "\" doesn't keep False for " + str(time_delta) + " seconds.")
-		return
+		raise AssertionError(message)
+		return False
 
 	start_time = time.time()
 	if time_delta > 10:
@@ -163,10 +173,11 @@ def must_keep_false(expression, time_delta, interval = 0.1):
 		while time.time()-start_time <= time_delta:
 			if eval(str_args[0]):
 				bar.close()
-				Fail("(" + str_args[0] + ") doesn't keep False for " + str(time_delta) + " seconds.")
+				message = "(" + str_args[0] + ") doesn't keep False for " + str(time_delta) + " seconds."
+				Fail(message)
 				log("     (It becomes True at " + str(round(time.time() - start_time, 2)) + " seconds.)", color="red", style="highlight")
-				raise AssertionError("(" + str_args[0] + ") doesn't keep False for " + str(time_delta) + " seconds.")
-				return
+				raise AssertionError(message)
+				return False
 			else:
 				elaspe = time.time() - start_time
 				bar.update(elaspe/time_delta)
@@ -176,21 +187,23 @@ def must_keep_false(expression, time_delta, interval = 0.1):
 	else:
 		while time.time()-start_time <= time_delta:
 			if eval(str_args[0]):
-				Fail("(" + str_args[0] + ") doesn't keep False for " + str(time_delta) + " seconds.")
+				message = "(" + str_args[0] + ") doesn't keep False for " + str(time_delta) + " seconds."
+				Fail(message)
 				log("     (It becomes True at " + str(round(time.time() - start_time, 2)) + " seconds.)", color="red", style="highlight")
-				raise AssertionError("(" + str_args[0] + ") doesn't keep False for " + str(time_delta) + " seconds.")
-				return
+				raise AssertionError(message)
+				return False
 			else:
 				time.sleep(interval)
 				
 	Pass("(" + str_args[0] + ") keeps False for " + str(time_delta) + " seconds.")
+	return True
 
 def should_become_true(expression, timeout, interval = 0.1):
 	str_args = get_actual_args_string()
 	if expression:
-		Pass(str_args[0] + " becomes True in " + str(timeout) + " seconds.")
+		Pass("(" + str_args[0] + ") becomes True in " + str(timeout) + " seconds.")
 		log("     (It is True at beginning.)", color="green", style="highlight")
-		return
+		return True
 
 	info("Waiting (" + str_args[0] + ") becomes True ... ")
 
@@ -200,18 +213,19 @@ def should_become_true(expression, timeout, interval = 0.1):
 			time.sleep(interval)
 		else:
 			time_waited = time.time() - start_time
-			Pass(str_args[0] + " becomes True in " + str(timeout) + " seconds.")
+			Pass("(" + str_args[0] + ") becomes True in " + str(timeout) + " seconds.")
 			log("     (It becomes True at " + str(time_waited) + " seconds.)", color="green", style="highlight")
-			return
+			return True
 
-	Fail(str_args[0] + " doesn't become True in " + str(timeout) + " seconds.")
+	Fail("(" + str_args[0] + ") doesn't become True in " + str(timeout) + " seconds.")
+	return False
 
 def must_become_true(expression, timeout, interval = 0.1):
 	str_args = get_actual_args_string()
 	if expression:
-		Pass(str_args[0] + " becomes True in " + str(timeout) + " seconds.")
+		Pass("(" + str_args[0] + ") becomes True in " + str(timeout) + " seconds.")
 		log("     (It is True at beginning.)", color="green", style="highlight")
-		return
+		return True
 
 	info("Waiting (" + str_args[0] + ") becomes True ... ")
 
@@ -221,19 +235,21 @@ def must_become_true(expression, timeout, interval = 0.1):
 			time.sleep(interval)
 		else:
 			time_waited = time.time() - start_time
-			Pass(str_args[0] + " becomes True in " + str(timeout) + " seconds.")
+			Pass("(" + str_args[0] + ") becomes True in " + str(timeout) + " seconds.")
 			log("     (It becomes True at " + str(time_waited) + " seconds.)", color="green", style="highlight")
-			return
+			return True
 
-	Fail(str_args[0] + " doesn't become True in " + str(timeout) + " seconds.")
-	raise AssertionError(str_args[0] + " doesn't become True in " + str(timeout) + " seconds.")
+	message = "(" + str_args[0] + ") doesn't become True in " + str(timeout) + " seconds."
+	Fail(message)
+	raise AssertionError(message)
+	return False
 
 def should_become_false(expression, timeout, interval = 0.1):
 	str_args = get_actual_args_string()
 	if not expression:
-		Pass(str_args[0] + " becomes False in " + str(timeout) + " seconds.")
+		Pass("(" + str_args[0] + ") becomes False in " + str(timeout) + " seconds.")
 		log("     (It's False at beginning.)", color="green", style="highlight")
-		return
+		return True
 
 	info("Waiting (" + str_args[0] + ") becomes False ... ")
 
@@ -243,18 +259,19 @@ def should_become_false(expression, timeout, interval = 0.1):
 			time.sleep(interval)
 		else:
 			time_waited = time.time() - start_time
-			Pass(str_args[0] + " becomes False in " + str(timeout) + " seconds.")
+			Pass("(" + str_args[0] + ") becomes False in " + str(timeout) + " seconds.")
 			log("     (It becomes False at " + str(time_waited) + " seconds.)", color="green", style="highlight")
-			return
+			return True
 
-	Fail(str_args[0] + " doesn't become False in " + str(timeout) + " seconds.")
+	Fail("(" + str_args[0] + ") doesn't become False in " + str(timeout) + " seconds.")
+	return False
 
 def must_become_false(expression, timeout, interval = 0.1):
 	str_args = get_actual_args_string()
 	if not expression:
-		Pass(str_args[0] + " becomes False in " + str(timeout) + " seconds.")
+		Pass("(" + str_args[0] + ") becomes False in " + str(timeout) + " seconds.")
 		log("     (It's False at beginning.)", color="green", style="highlight")
-		return
+		return True
 
 	info("Waiting \"" + str_args[0] + "\" becomes False ... ")
 
@@ -264,9 +281,10 @@ def must_become_false(expression, timeout, interval = 0.1):
 			time.sleep(interval)
 		else:
 			time_waited = time.time() - start_time
-			Pass(str_args[0] + " becomes False in " + str(timeout) + " seconds.")
+			Pass("(" + str_args[0] + ") becomes False in " + str(timeout) + " seconds.")
 			log("     (It becomes False at " + str(time_waited) + " seconds.)", color="green", style="highlight")
-			return
-
-	Fail(str_args[0] + " doesn't become False in " + str(timeout) + " seconds.")
-	raise AssertionError(str_args[0] + " doesn't become False in " + str(timeout) + " seconds.")
+			return True
+	message = "(" + str_args[0] + ") doesn't become False in " + str(timeout) + " seconds."
+	Fail(message)
+	raise AssertionError(message)
+	return False

@@ -369,6 +369,7 @@ def should_be_equal(value1, value2):
 		if str_args[0] != str_value1 and __not_original_string(str_args[0]) and \
 		   str_args[1] != str_value2 and __not_original_string(str_args[1]):
 			log("     (" + str_args[0] + " = " + str_args[1] + " = " + str_value1 + ")", color="green", style="highlight")
+		return True
 	else:
 		Fail(str_args[0] + " is not equal to " + str_args[1])
 		if str_args[0] != str_value1 and __not_original_string(str_args[0]) and \
@@ -378,6 +379,7 @@ def should_be_equal(value1, value2):
 			log("     (" + str_args[0] + " = " + str_value1 + ")", color="red", style="highlight")
 		elif str_args[1] != str_value2 and __not_original_string(str_args[1]):
 			log("     (" + str_args[1] + " = " + str_value2 + ")", color="red", style="highlight")
+		return False
 
 def must_be_equal(value1, value2):
 	str_args = get_actual_args_string()
@@ -388,6 +390,7 @@ def must_be_equal(value1, value2):
 		if str_args[0] != str_value1 and __not_original_string(str_args[0]) and \
 		   str_args[1] != str_value2 and __not_original_string(str_args[1]):
 			log("     (" + str_args[0] + " = " + str_args[1] + " = " + str_value1 + ")", color="green", style="highlight")
+		return True
 	else:
 		message = str_args[0] + " is not equal to " + str_args[1]
 		Fail(message)
@@ -399,6 +402,7 @@ def must_be_equal(value1, value2):
 		elif str_args[1] != str_value2 and __not_original_string(str_args[1]):
 			log("     (" + str_args[1] + " = " + str_value2 + ")", color="red", style="highlight")
 		raise AssertionError(message)
+		return False
 
 def should_not_be_equal(value1, value2):
 	str_args = get_actual_args_string()
@@ -413,11 +417,13 @@ def should_not_be_equal(value1, value2):
 			log("     (" + str_args[0] + " = " + str_value1 + ")", color="green", style="highlight")
 		elif str_args[1] != str_value2 and __not_original_string(str_args[1]):
 			log("     (" + str_args[1] + " = " + str_value2 + ")", color="green", style="highlight")
+		return True
 	else:
 		Fail(str_args[0] + " is equal to " + str_args[1])
 		if str_args[0] != str_value1 and __not_original_string(str_args[0]) and \
 		   str_args[1] != str_value2 and __not_original_string(str_args[1]):
 			log("     (" + str_args[0] + " = " + str_args[1] + " = " + str_value1 + ")", color="red", style="highlight")
+		return False
 
 def must_not_be_equal(value1, value2):
 	str_args = get_actual_args_string()
@@ -432,6 +438,7 @@ def must_not_be_equal(value1, value2):
 			log("     (" + str_args[0] + " = " + str_value1 + ")", color="green", style="highlight")
 		elif str_args[1] != str_value2 and __not_original_string(str_args[1]):
 			log("     (" + str_args[1] + " = " + str_value2 + ")", color="green", style="highlight")
+		return True
 	else:
 		message = str_args[0] + " is equal to " + str_args[1]
 		Fail(message)
@@ -439,18 +446,22 @@ def must_not_be_equal(value1, value2):
 		   str_args[1] != str_value2 and __not_original_string(str_args[1]):
 			log("     (" + str_args[0] + " = " + str_args[1] + " = " + str_value1 + ")", color="red", style="highlight")
 		raise AssertionError(message)
+		return False
 
 def should_be_greater(value1, value2):
 	str_args = get_actual_args_string()
 	str_value1 = __eff_str(value1)
 	str_value2 = __eff_str(value2)
 	color = ""
+	return_value = None
 	if value1 > value2:
 		Pass(str_args[0] + " is greater than " + str_args[1])
 		color = "green"
+		return_value = True
 	else:
 		Fail(str_args[0] + " is not greater than " + str_args[1])
 		color = "red"
+		return_value = False
 
 	if str_args[0] != str_value1 and __not_original_string(str_args[0]) and \
 	   str_args[1] != str_value2 and __not_original_string(str_args[1]):
@@ -459,6 +470,8 @@ def should_be_greater(value1, value2):
 		log("     (" + str_args[0] + " = " + str_value1 + ")", color=color, style="highlight")
 	elif str_args[1] != str_value2 and __not_original_string(str_args[1]):
 		log("     (" + str_args[1] + " = " + str_value2 + ")", color=color, style="highlight")
+
+	return return_value
 
 def must_be_greater(value1, value2):
 	str_args = get_actual_args_string()
@@ -466,13 +479,16 @@ def must_be_greater(value1, value2):
 	str_value2 = __eff_str(value2)
 	message = ""
 	color = ""
+	return_value = None
 	if value1 > value2:
 		Pass(str_args[0] + " is greater than " + str_args[1])
 		color = "green"
+		return_value = True
 	else:
 		message = str_args[0] + " is not greater than " + str_args[1]
 		Fail(message)
 		color = "red"
+		return_value = False
 
 	if str_args[0] != str_value1 and __not_original_string(str_args[0]) and \
 	   str_args[1] != str_value2 and __not_original_string(str_args[1]):
@@ -482,20 +498,25 @@ def must_be_greater(value1, value2):
 	elif str_args[1] != str_value2 and __not_original_string(str_args[1]):
 		log("     (" + str_args[1] + " = " + str_value2 + ")", color=color, style="highlight")
 
-	if message:
+	if not return_value:
 		raise AssertionError(message)
+
+	return return_value
 
 def should_be_less(value1, value2):
 	str_args = get_actual_args_string()
 	str_value1 = __eff_str(value1)
 	str_value2 = __eff_str(value2)
 	color = ""
+	return_value = None
 	if value1 < value2:
 		Pass(str_args[0] + " is less than " + str_args[1])
 		color = "green"
+		return_value = True
 	else:
 		Fail(str_args[0] + " is not less than " + str_args[1])
 		color = "red"
+		return_value = False
 
 	if str_args[0] != str_value1 and __not_original_string(str_args[0]) and \
 	   str_args[1] != str_value2 and __not_original_string(str_args[1]):
@@ -504,6 +525,8 @@ def should_be_less(value1, value2):
 		log("     (" + str_args[0] + " = " + str_value1 + ")", color=color, style="highlight")
 	elif str_args[1] != str_value2 and __not_original_string(str_args[1]):
 		log("     (" + str_args[1] + " = " + str_value2 + ")", color=color, style="highlight")
+
+	return return_value
 
 def must_be_less(value1, value2):
 	str_args = get_actual_args_string()
@@ -511,13 +534,16 @@ def must_be_less(value1, value2):
 	str_value2 = __eff_str(value2)
 	message = ""
 	color = ""
+	return_value = None
 	if value1 < value2:
 		Pass(str_args[0] + " is less than " + str_args[1])
 		color = "green"
+		return_value = True
 	else:
 		message = str_args[0] + " is not less than " + str_args[1]
 		Fail(message)
 		color = "red"
+		return_value = False
 
 	if str_args[0] != str_value1 and __not_original_string(str_args[0]) and \
 	   str_args[1] != str_value2 and __not_original_string(str_args[1]):
@@ -527,20 +553,25 @@ def must_be_less(value1, value2):
 	elif str_args[1] != str_value2 and __not_original_string(str_args[1]):
 		log("     (" + str_args[1] + " = " + str_value2 + ")", color=color, style="highlight")
 
-	if message:
+	if not return_value:
 		raise AssertionError(message)
+
+	return return_value
 
 def should_not_be_greater(value1, value2):
 	str_args = get_actual_args_string()
 	str_value1 = __eff_str(value1)
 	str_value2 = __eff_str(value2)
 	color = ""
+	return_value = None
 	if value1 <= value2:
 		Pass(str_args[0] + " is not greater than " + str_args[1])
 		color = "green"
+		return_value = True
 	else:
 		Fail(str_args[0] + " is greater than " + str_args[1])
 		color = "red"
+		return_value = False
 
 	if str_args[0] != str_value1 and __not_original_string(str_args[0]) and \
 	   str_args[1] != str_value2 and __not_original_string(str_args[1]):
@@ -549,6 +580,8 @@ def should_not_be_greater(value1, value2):
 		log("     (" + str_args[0] + " = " + str_value1 + ")", color=color, style="highlight")
 	elif str_args[1] != str_value2 and __not_original_string(str_args[1]):
 		log("     (" + str_args[1] + " = " + str_value2 + ")", color=color, style="highlight")
+
+	return return_value
 
 def must_not_be_greater(value1, value2):
 	str_args = get_actual_args_string()
@@ -556,13 +589,16 @@ def must_not_be_greater(value1, value2):
 	str_value2 = __eff_str(value2)
 	message = ""
 	color = ""
+	return_value = None
 	if value1 <= value2:
 		Pass(str_args[0] + " is not greater than " + str_args[1])
 		color = "green"
+		return_value = True
 	else:
 		message = str_args[0] + " is greater than " + str_args[1]
 		Fail(message)
 		color = "red"
+		return_value = False
 
 	if str_args[0] != str_value1 and __not_original_string(str_args[0]) and \
 	   str_args[1] != str_value2 and __not_original_string(str_args[1]):
@@ -572,20 +608,25 @@ def must_not_be_greater(value1, value2):
 	elif str_args[1] != str_value2 and __not_original_string(str_args[1]):
 		log("     (" + str_args[1] + " = " + str_value2 + ")", color=color, style="highlight")
 
-	if message:
+	if not return_value:
 		raise AssertionError(message)
+
+	return return_value
 
 def should_not_be_less(value1, value2):
 	str_args = get_actual_args_string()
 	str_value1 = __eff_str(value1)
 	str_value2 = __eff_str(value2)
 	color = ""
+	return_value = None
 	if value1 >= value2:
 		Pass(str_args[0] + " is not less than " + str_args[1])
 		color = "green"
+		return_value = True
 	else:
 		Fail(str_args[0] + " is less than " + str_args[1])
 		color = "red"
+		return_value = False
 
 	if str_args[0] != str_value1 and __not_original_string(str_args[0]) and \
 	   str_args[1] != str_value2 and __not_original_string(str_args[1]):
@@ -594,6 +635,8 @@ def should_not_be_less(value1, value2):
 		log("     (" + str_args[0] + " = " + str_value1 + ")", color=color, style="highlight")
 	elif str_args[1] != str_value2 and __not_original_string(str_args[1]):
 		log("     (" + str_args[1] + " = " + str_value2 + ")", color=color, style="highlight")
+
+	return return_value
 
 def must_not_be_less(value1, value2):
 	str_args = get_actual_args_string()
@@ -601,13 +644,16 @@ def must_not_be_less(value1, value2):
 	str_value2 = __eff_str(value2)
 	message = ""
 	color = ""
+	return_value = None
 	if value1 >= value2:
 		Pass(str_args[0] + " is not less than " + str_args[1])
 		color = "green"
+		return_value = True
 	else:
 		message = str_args[0] + " is less than " + str_args[1]
 		Fail(message)
 		color = "red"
+		return_value = False
 
 	if str_args[0] != str_value1 and __not_original_string(str_args[0]) and \
 	   str_args[1] != str_value2 and __not_original_string(str_args[1]):
@@ -617,51 +663,65 @@ def must_not_be_less(value1, value2):
 	elif str_args[1] != str_value2 and __not_original_string(str_args[1]):
 		log("     (" + str_args[1] + " = " + str_value2 + ")", color=color, style="highlight")
 
-	raise AssertionError(message)
+	if not return_value:
+		raise AssertionError(message)
+
+	return return_value
 
 def should_be_true(flag):
 	str_args = get_actual_args_string()
 	if flag == True:
 		Pass("(" + str_args[0] + ") is True")
+		return True
 	else:
 		Fail("(" + str_args[0] + ") is False")
+		return False
 
 def must_be_true(flag):
 	str_args = get_actual_args_string()
 	if flag == True:
 		Pass(str_args[0] + " is True")
+		return True
 	else:
 		message = "(" + str_args[0] + ") is False"
 		Fail(message)
 		raise AssertionError(message)
+		return False
 
 def should_be_false(flag):
 	str_args = get_actual_args_string()
 	if flag == False:
 		Pass("(" + str_args[0] + ") is False")
+		return True
 	else:
 		Fail("(" + str_args[0] + ") is not False")
+		return False
 
 def must_be_false(flag):
 	str_args = get_actual_args_string()
 	if flag == False:
 		Pass("(" + str_args[0] + ") is False")
+		return True
 	else:
 		message = "(" + str_args[0] + ") is not False"
 		Fail(message)
 		raise AssertionError(message)
+		return False
 
 def should_be_approx(value1, value2, tolerance = 5, func=abs):
 	str_args = get_actual_args_string()
 	str_value1 = __eff_str(value1)
 	str_value2 = __eff_str(value2)
 	color = ""
+	return_value = None
 	if func(value1 - value2) <= tolerance:
 		Pass(str_args[0] + " is approx to " + str_args[1] + " with tolerance " + str(tolerance))
 		color = "green"
+		return_value = True
 	else:
 		Fail(str_args[0] + " is not approx to " + str_args[1] + " with tolerance " + str(tolerance))
 		color = "red"
+		return_value = False
 
 	if str_args[0] != str_value1 and __not_original_string(str_args[0]) and \
 	   str_args[1] != str_value2 and __not_original_string(str_args[1]):
@@ -670,6 +730,8 @@ def should_be_approx(value1, value2, tolerance = 5, func=abs):
 		log("     (" + str_args[0] + " = " + str_value1 + ")", color=color, style="highlight")
 	elif str_args[1] != str_value2 and __not_original_string(str_args[1]):
 		log("     (" + str_args[1] + " = " + str_value2 + ")", color=color, style="highlight")
+
+	return return_value
 
 def must_be_approx(value1, value2, tolerance = 1/3600, func=abs):
 	str_args = get_actual_args_string()
@@ -677,13 +739,16 @@ def must_be_approx(value1, value2, tolerance = 1/3600, func=abs):
 	str_value2 = __eff_str(value2)
 	message = ""
 	color = ""
+	return_value = None
 	if func(value1 - value2) <= tolerance:
 		Pass(str_args[0] + " is approx to " + str_args[1] + " with tolerance " + str(tolerance))
 		color = "green"
+		return_value = True
 	else:
 		message = str_args[0] + " is not approx to " + str_args[1] + " with tolerance " + str(tolerance)
 		Fail(message)
 		color = "red"
+		return_value = False
 
 	if str_args[0] != str_value1 and __not_original_string(str_args[0]) and \
 	   str_args[1] != str_value2 and __not_original_string(str_args[1]):
@@ -696,17 +761,22 @@ def must_be_approx(value1, value2, tolerance = 1/3600, func=abs):
 	if message:
 		raise AssertionError(message)
 
+	return return_value
+
 def should_not_be_approx(value1, value2, tolerance = 5, func=abs):
 	str_args = get_actual_args_string()
 	str_value1 = __eff_str(value1)
 	str_value2 = __eff_str(value2)
 	color = ""
+	return_value = None
 	if func(value1 - value2) <= tolerance:
 		Fail(str_args[0] + " is approx to " + str_args[1] + " with tolerance " + str(tolerance))
 		color = "red"
+		return_value = False
 	else:
 		Pass(str_args[0] + " is not approx to " + str_args[1] + " with tolerance " + str(tolerance))
 		color = "green"
+		return_value = True
 
 	if str_args[0] != str_value1 and __not_original_string(str_args[0]) and \
 	   str_args[1] != str_value2 and __not_original_string(str_args[1]):
@@ -715,6 +785,8 @@ def should_not_be_approx(value1, value2, tolerance = 5, func=abs):
 		log("     (" + str_args[0] + " = " + str_value1 + ")", color=color, style="highlight")
 	elif str_args[1] != str_value2 and __not_original_string(str_args[1]):
 		log("     (" + str_args[1] + " = " + str_value2 + ")", color=color, style="highlight")
+
+	return return_value
 
 def must_not_be_approx(value1, value2, tolerance = 1/3600, func=abs):
 	str_args = get_actual_args_string()
@@ -722,13 +794,16 @@ def must_not_be_approx(value1, value2, tolerance = 1/3600, func=abs):
 	str_value2 = __eff_str(value2)
 	message = ""
 	color = ""
+	return_value = None
 	if func(value1 - value2) <= tolerance:
 		message = str_args[0] + " is approx to " + str_args[1] + " with tolerance " + str(tolerance)
 		Fail(message)
 		color = "red"
+		return_value = False
 	else:
 		Pass(str_args[0] + " is not approx to " + str_args[1] + " with tolerance " + str(tolerance))
 		color = "green"
+		return_value = True
 
 	if str_args[0] != str_value1 and __not_original_string(str_args[0]) and \
 	   str_args[1] != str_value2 and __not_original_string(str_args[1]):
@@ -740,6 +815,8 @@ def must_not_be_approx(value1, value2, tolerance = 1/3600, func=abs):
 
 	if message:
 		raise AssertionError(message)
+
+	return return_value
 
 def wait(time_delta):
 	info("Wait", time_delta, "seconds ... ", end="")
@@ -948,10 +1025,15 @@ def please_check(something):
 	result = win32api.MessageBox(0, "Please check " + something, "Manual Check Request", win32con.MB_YESNO)
 	if result == win32con.IDYES:
 		Pass("(" + something + ") is True.")
+		return True
 	else:
 		Fail("(" + something + ") is False.")
+		return False
 
-def __construct_section_number(level):
+def section_number(level = None):
+	if level is None:
+		level = __current_level
+
 	number = ""
 	for i in range(1, level+1):
 		number += str(__current_section[i]["number"]) + "."
@@ -968,19 +1050,22 @@ def section(name = "", level = 1):
 	green = start_format(color="green", style="highlight")
 	red = start_format(color="red", style="highlight")
 	cyan = start_format(color="cyan", style="highlight")
-	form = green
-
+	form1 = green
+	form2 = green
+	
 	global __last_is_end_section
 
 	for i in range(__current_level, level-1, -1):
 		if __current_section[i]["number"] != 0 and __current_section[i]["total"] != 0:
 			__indent = "    " * (i-1)
+			if __current_section[i]["passed"] == 0:
+				form1 = red
 			if __current_section[i]["failed"] > 0:
-				form = red
-			log(cyan + "[ Section " + __construct_section_number(i) + " Summary:" + \
+				form2 = red
+			log(cyan + "[ Section " + section_number(i) + " Summary:" + \
 				" Total: " + str(__current_section[i]["total"]) + ", " + end_format() + \
-				green + "Passed: " + str(__current_section[i]["passed"]) + end_format() + cyan + ", " + end_format() + \
-				form  + "Failed: " + str(__current_section[i]["failed"]) + end_format() + cyan + " ]\n" + end_format())
+				form1 + "Passed: " + str(__current_section[i]["passed"]) + end_format() + cyan + ", " + end_format() + \
+				form2  + "Failed: " + str(__current_section[i]["failed"]) + end_format() + cyan + " ]\n" + end_format())
 			__last_is_end_section = True
 			__current_section[i]["total"] = 0
 			__current_section[i]["passed"] = 0
@@ -992,11 +1077,11 @@ def section(name = "", level = 1):
 		__current_section[i]["number"] = 0
 
 	__indent = "    " * (level-1)
-	section_number = __construct_section_number(level)
+	sec = section_number(level)
 	if name == "":
-		log("Section " + section_number, color="cyan", style="highlight")
+		log("Section " + sec, color="cyan", style="highlight")
 	else:
-		log(section_number + "  " + name, color="cyan", style="highlight")
+		log(sec + "  " + name, color="cyan", style="highlight")
 	__indent = "    " * level
 
 def end_section():
@@ -1012,15 +1097,18 @@ def end_section():
 	green = start_format(color="green", style="highlight")
 	red = start_format(color="red", style="highlight")
 	cyan = start_format(color="cyan", style="highlight")
-	form = green
+	form1 = green
+	form2 = green
 	if __current_section[__current_level]["number"] != 0 and __current_section[__current_level]["total"] != 0:
 		__indent = "    " * (__current_level-1)
+		if __current_section[__current_level]["passed"] == 0:
+			form1 = red
 		if __current_section[__current_level]["failed"] > 0:
-			form = red
-		log(cyan + "[ Section " + __construct_section_number(__current_level) + " Summary:" + \
+			form2 = red
+		log(cyan + "[ Section " + section_number(__current_level) + " Summary:" + \
 			" Total: " + str(__current_section[__current_level]["total"]) + ", " + end_format() + \
-			green + "Passed: " + str(__current_section[__current_level]["passed"]) + end_format() + cyan + ", " + end_format() + \
-			form  + "Failed: " + str(__current_section[__current_level]["failed"]) + end_format() + cyan + " ]\n" + end_format())
+			form1 + "Passed: " + str(__current_section[__current_level]["passed"]) + end_format() + cyan + ", " + end_format() + \
+			form2  + "Failed: " + str(__current_section[__current_level]["failed"]) + end_format() + cyan + " ]\n" + end_format())
 		__last_is_end_section = True
 		__current_section[__current_level]["total"] = 0
 		__current_section[__current_level]["passed"] = 0
@@ -1077,7 +1165,8 @@ def end_test():
 	green = start_format(color="green", style="highlight")
 	red = start_format(color="red", style="highlight")
 	cyan = start_format(color="cyan", style="highlight")
-	form = green
+	form1 = green
+	form2 = green
 
 	global __indent
 	__indent = ""
@@ -1092,10 +1181,12 @@ def end_test():
 		exit_code = 0
 		tail_str += "\n"
 		tail_str += cyan + "Total: " + str(__current_section[0]["total"]) + end_format() + "\n"
-		tail_str += green + "Passed: " + str(__current_section[0]["passed"]) + end_format() + "\n"
+		if __current_section[0]["passed"] == 0:
+			form1 = red
+		tail_str += form1 + "Passed: " + str(__current_section[0]["passed"]) + end_format() + "\n"
 		if __current_section[0]["failed"] > 0:
-			form = red
-		tail_str += form + "Failed: " + str(__current_section[0]["failed"]) + end_format() + "\n"
+			form2 = red
+		tail_str += form2 + "Failed: " + str(__current_section[0]["failed"]) + end_format() + "\n"
 		try:
 			error_type = sys.last_type.__name__
 			tail_str += red + "Result: "
