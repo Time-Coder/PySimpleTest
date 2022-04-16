@@ -100,9 +100,9 @@ def get_actual_args_string():
 			depth = current_depth
 
 		if depth == 0 and str_args[i] == ',':
-			items.append(str_args[pos_start:i].strip(" \t"))
+			items.append(str_args[pos_start:i].strip(" \\\t"))
 			pos_start = i + 1
-	items.append(str_args[pos_start:].strip(" \t"))
+	items.append(str_args[pos_start:].strip(" \\\t"))
 	return items
 
 def start_format(color = "white", style = "default"):
@@ -174,7 +174,7 @@ __rel_path = ""
 __script_total_line = 0
 __last_is_end_section = False
 __current_section = ExpandList()
-__current_level = 0
+_current_level = 0
 __indent = ""
 __log_use_indent = True
 __print_use_indent = True
@@ -327,14 +327,14 @@ def start_test():
 	log(head_str, color="cyan", style="highlight", link=False)
 
 def Pass(message):
-	for i in range(__current_level+1):
+	for i in range(_current_level+1):
 		__current_section[i]["total"] += 1
 		__current_section[i]["passed"] += 1
 
 	log("Pass: " + message, color="green", style="highlight")
 
 def Fail(message):
-	for i in range(__current_level+1):
+	for i in range(_current_level+1):
 		__current_section[i]["total"] += 1
 		__current_section[i]["failed"] += 1
 
@@ -1032,7 +1032,7 @@ def please_check(something):
 
 def section_number(level = None):
 	if level is None:
-		level = __current_level
+		level = _current_level
 
 	number = ""
 	for i in range(1, level+1):
@@ -1042,7 +1042,7 @@ def section_number(level = None):
 def section(name = "", level = 1):
 	global __section_used
 	global __indent
-	global __current_level
+	global _current_level
 	global __current_section
 
 	__section_used = True
@@ -1055,7 +1055,7 @@ def section(name = "", level = 1):
 	
 	global __last_is_end_section
 
-	for i in range(__current_level, level-1, -1):
+	for i in range(_current_level, level-1, -1):
 		if __current_section[i]["number"] != 0 and __current_section[i]["total"] != 0:
 			__indent = "    " * (i-1)
 			if __current_section[i]["passed"] == 0:
@@ -1071,7 +1071,7 @@ def section(name = "", level = 1):
 			__current_section[i]["passed"] = 0
 			__current_section[i]["failed"] = 0
 
-	__current_level = level
+	_current_level = level
 	__current_section[level]["number"] += 1
 	for i in range(level+1, len(__current_section)):
 		__current_section[i]["number"] = 0
@@ -1085,13 +1085,13 @@ def section(name = "", level = 1):
 	__indent = "    " * level
 
 def end_section():
-	global __current_level
+	global _current_level
 	global __current_section
 	global __indent
 	global __last_is_end_section
 	original_indent = __indent
 
-	if __current_level == 0:
+	if _current_level == 0:
 		return
 
 	green = start_format(color="green", style="highlight")
@@ -1099,28 +1099,28 @@ def end_section():
 	cyan = start_format(color="cyan", style="highlight")
 	form1 = green
 	form2 = green
-	if __current_section[__current_level]["number"] != 0 and __current_section[__current_level]["total"] != 0:
-		__indent = "    " * (__current_level-1)
-		if __current_section[__current_level]["passed"] == 0:
+	if __current_section[_current_level]["number"] != 0 and __current_section[_current_level]["total"] != 0:
+		__indent = "    " * (_current_level-1)
+		if __current_section[_current_level]["passed"] == 0:
 			form1 = red
-		if __current_section[__current_level]["failed"] > 0:
+		if __current_section[_current_level]["failed"] > 0:
 			form2 = red
-		log(cyan + "[ Section " + section_number(__current_level) + " Summary:" + \
-			" Total: " + str(__current_section[__current_level]["total"]) + ", " + end_format() + \
-			form1 + "Passed: " + str(__current_section[__current_level]["passed"]) + end_format() + cyan + ", " + end_format() + \
-			form2  + "Failed: " + str(__current_section[__current_level]["failed"]) + end_format() + cyan + " ]\n" + end_format())
+		log(cyan + "[ Section " + section_number(_current_level) + " Summary:" + \
+			" Total: " + str(__current_section[_current_level]["total"]) + ", " + end_format() + \
+			form1 + "Passed: " + str(__current_section[_current_level]["passed"]) + end_format() + cyan + ", " + end_format() + \
+			form2  + "Failed: " + str(__current_section[_current_level]["failed"]) + end_format() + cyan + " ]\n" + end_format())
 		__last_is_end_section = True
-		__current_section[__current_level]["total"] = 0
-		__current_section[__current_level]["passed"] = 0
-		__current_section[__current_level]["failed"] = 0
+		__current_section[_current_level]["total"] = 0
+		__current_section[_current_level]["passed"] = 0
+		__current_section[_current_level]["failed"] = 0
 
 	n_back = 0
-	if __current_level >= 1:
-		__current_level -= 1
+	if _current_level >= 1:
+		_current_level -= 1
 		n_back += 1
 
-	while __current_level >= 1 and __current_section[__current_level] == 0:
-		__current_level -= 1
+	while _current_level >= 1 and __current_section[_current_level] == 0:
+		_current_level -= 1
 		n_back += 1
 
 	__indent = original_indent[:-4*n_back]
@@ -1137,6 +1137,16 @@ def subsubsubsection(name = ""):
 def subsubsubsubsection(name = ""):
 	return section(name, level = 5)
 
+class Section:
+	def __init__(self, section_name):
+		self._name = section_name
+
+	def __enter__(self):
+		section(self._name, level=_current_level+1)
+
+	def __exit__(self, type, value, tb):
+		end_section()
+
 def run_together(*args):
 	threads = []
 	for arg in args:
@@ -1151,8 +1161,8 @@ def end_test():
 	if __start_time is None or __log_filename is None or __info_filename is None:
 		return
 
-	global __current_level
-	while __current_level > 0:
+	global _current_level
+	while _current_level > 0:
 		end_section()
 
 	def format_seconds_to_hhmmss(seconds):
