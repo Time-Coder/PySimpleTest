@@ -17,7 +17,7 @@ If you are suffering from writting just a simple for loop in **Robot Framework**
 So for writting small test, PySimpleTest is a good choice.
 ## 2  Getting Start
 Write a file `main.py`:
-```
+```python
 from PySimpleTest import *
 
 a = 2
@@ -58,14 +58,14 @@ Else "<font color="red">Fail: (&lt;expression&gt;) is False</font>" will be prin
 
 Following functions are enhance functions, you need to use `enable(enhance_func)` after `import` just like:
 <label id="enhance"></label>
-```
+```python
 from PySimpleTest import *
 enable(enhance_func)
 ```
 
 * `should_keep_true(expression, duration)`: Pass when `expression` keeps True for `duration` seconds.  
 Try following example:
-```
+```python
 import time
 
 start_time = time.time()
@@ -84,7 +84,7 @@ Every function start with `should_` has it's blocked version start with `must_`.
 
 * `log(*args, **kwargs)`:  
 Use `log` just like `print`. It will print in console as well as write into log file. For example:
-```
+```python
 a = {"key": 5}
 log("a =", a)
 ```
@@ -101,7 +101,7 @@ Use `info` just like `log`. `info` will not write into `.log` file but into `.in
 
 * `section(name, level = 1)`:  
 To make following log with one level indent. For example:
-```
+```python
 section("Test eval function")
 
 section("eval single value", level = 2)
@@ -124,7 +124,7 @@ Above code will have following output:
 * `subsubsubsection(name)`: Same as `section(name, level = 4)`
 * `subsubsubsubsection(name)`: Same as `section(name, level = 5)`
 * `end_section()`: Will go back one level indent for following log. For example:
-```
+```python
 log("line 1")
 log("line 2")
 
@@ -147,7 +147,7 @@ Above code will have following output. You can see that after `end_section()`, `
 
 Also, you can use leveled section using class `Section`. For above example, you can rewrite in this way:
 
-```
+```python
 log("line 1")
 log("line 2")
 
@@ -196,7 +196,7 @@ header_info["Reviewer"] = "Eason"
 * `wait_until_not(expression, timeout = 480, interval = 0.1, must = False)`: Similar with `wait_until`. Just to wait `<expression>` become False.  
 (<font color="red">**Note:**</font> this function can only work after you [enable enhance function](#enhance))
 * `please(do_something)`: Pop out a window to indicate you to do some manual operation. For example:
-```
+```python
 please("reboot machine 1")
 ```
 Then it will pop out following window and wait you finish manual operation then click `OK` button.
@@ -273,7 +273,7 @@ A file with `.linfo` expand name is also generated. This file is same as `.info`
 <details>
 	<summary>See Code</summary>
 
-```
+```json
 {
     "context_menu": true,
     "auto_highlight" : true,
