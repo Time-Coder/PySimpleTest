@@ -144,6 +144,7 @@ Above code will have following output. You can see that after `end_section()`, `
 <div align="center">
 <img src="https://s1.ax1x.com/2020/08/15/dko7Y8.png" width="350">
 </div>
+
 Also, you can use leveled section using class `Section`. For above example, you can rewrite in this way:
 
 ```
