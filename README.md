@@ -145,6 +145,7 @@ Above code will have following output. You can see that after `end_section()`, `
 <img src="https://s1.ax1x.com/2020/08/15/dko7Y8.png" width="350">
 </div>
 Also, you can use leveled section using class `Section`. For above example, you can rewrite in this way:
+
 ```
 log("line 1")
 log("line 2")
@@ -159,6 +160,7 @@ with Section("section"):
     log("line 8")
 log("line 9")
 ```
+
 It can also generate the same result as above figure. This is the recommanded way to use leveled section. Because result out log will have the same indent layout with the source code.
 ### 3.3  Header/Tailer information control
 In a test report, following figure shows the header and tailer information position:
