@@ -14,7 +14,8 @@ If you are suffering from writting just a simple for loop in **Robot Framework**
 * Colored cmd output to indicate <font color="red">Fail</font>, <font color="green">Pass</font>, <font color="red">Error</font>, etc.
 * Log file with link information. If you use editor like Sublime, can realize double-click test report line to jump to corresponding code.
 
-So for writting small test, PySimpleTest is a good choice.
+So for writting small test, PySimpleTest is a good choice. In addition, you can find PyPI index at: [https://pypi.org/project/PySimpleTest/](https://pypi.org/project/PySimpleTest/)
+
 ## 2  Getting Start
 Write a file `main.py`:
 ```python
