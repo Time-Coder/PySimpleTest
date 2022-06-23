@@ -1539,7 +1539,7 @@ def end_test():
 	shutil.copyfile(__info_filename, info_backup_dir + "/" + base_name(__info_filename) + "_" + current_time + "." + expand_name(__info_filename))
 	shutil.copyfile(__linfo_filename, linfo_backup_dir + "/" + base_name(__linfo_filename) + "_" + current_time + "." + expand_name(__linfo_filename))
 
-	sys.exit(exit_code)
+	os._exit(exit_code)
 
 	# exit_code = 0  # all passed
 	# exit_code = 1  # some failed
