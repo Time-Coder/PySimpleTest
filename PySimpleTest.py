@@ -3,6 +3,7 @@ import os
 import shutil
 from . import progressbar
 from .speaker import *
+from .helper import *
 import time
 import win32api, win32con
 import copy
@@ -36,74 +37,6 @@ def parse_argv(args = {}):
 			args[sys.argv[i]] = sys.argv[i+1]
 
 	return args
-
-def get_actual_args_string():
-	n_line = sys._getframe().f_back.f_back.f_lineno
-	filename = sys._getframe().f_back.f_back.f_code.co_filename
-	funcname = sys._getframe().f_back.f_code.co_name
-
-	code = ""
-	global __code_dict
-	if filename in __code_dict:
-		code = __code_dict[filename]
-	else:
-		code = open(filename).read()
-		__code_dict[filename] = code
-
-	i_break = -1
-	for i in range(n_line):
-		i_break = code.find('\n', i_break+1)
-
-	func_begin = code.rfind(funcname, 0, i_break) + len(funcname)
-	left_brace = code.find('(', func_begin)
-	right_brace = left_brace
-	n_left_brace = 1
-	while n_left_brace != 0:
-		right_brace += 1
-		if code[right_brace] == '(':
-			n_left_brace += 1
-		elif code[right_brace] == ')':
-			n_left_brace -= 1
-	str_args = code[left_brace+1:right_brace]
-	depth = 0
-	current_depth = 0
-	items = []
-	pos_start = 0
-	is_left_double_quote = True
-	is_left_simgle_quote = True
-	for i in range(len(str_args)):
-		if str_args[i] == '\'':
-			if is_left_simgle_quote:
-				depth = current_depth
-				current_depth += 1
-				is_left_simgle_quote = False
-			else:
-				current_depth -= 1
-				depth = current_depth
-				is_left_simgle_quote = True
-		elif str_args[i] == '\"':
-			if is_left_double_quote:
-				depth = current_depth
-				current_depth += 1
-				is_left_double_quote = False
-			else:
-				current_depth -= 1
-				depth = current_depth
-				is_left_double_quote = True
-		elif str_args[i] in '([{':
-			depth = current_depth
-			current_depth += 1
-		elif str_args[i] in ')]}':
-			current_depth -= 1
-			depth = current_depth
-		else:
-			depth = current_depth
-
-		if depth == 0 and str_args[i] == ',':
-			items.append(str_args[pos_start:i].strip(" \\\t"))
-			pos_start = i + 1
-	items.append(str_args[pos_start:].strip(" \\\t"))
-	return items
 
 def start_format(color = "white", style = "default"):
 	if not __color_on:
@@ -361,7 +294,7 @@ def __eff_str(value):
 		return str(value)
 
 def should_be_equal(value1, value2):
-	str_args = get_actual_args_string()
+	str_args, _ = get_actual_args_str()
 	str_value1 = __eff_str(value1)
 	str_value2 = __eff_str(value2)
 	if value1 == value2:
@@ -382,7 +315,7 @@ def should_be_equal(value1, value2):
 		return False
 
 def must_be_equal(value1, value2):
-	str_args = get_actual_args_string()
+	str_args, _ = get_actual_args_str()
 	str_value1 = __eff_str(value1)
 	str_value2 = __eff_str(value2)
 	if value1 == value2:
@@ -405,7 +338,7 @@ def must_be_equal(value1, value2):
 		return False
 
 def should_not_be_equal(value1, value2):
-	str_args = get_actual_args_string()
+	str_args, _ = get_actual_args_str()
 	str_value1 = __eff_str(value1)
 	str_value2 = __eff_str(value2)
 	if value1 != value2:
@@ -426,7 +359,7 @@ def should_not_be_equal(value1, value2):
 		return False
 
 def must_not_be_equal(value1, value2):
-	str_args = get_actual_args_string()
+	str_args, _ = get_actual_args_str()
 	str_value1 = __eff_str(value1)
 	str_value2 = __eff_str(value2)
 	if value1 != value2:
@@ -449,7 +382,7 @@ def must_not_be_equal(value1, value2):
 		return False
 
 def should_be_greater(value1, value2):
-	str_args = get_actual_args_string()
+	str_args, _ = get_actual_args_str()
 	str_value1 = __eff_str(value1)
 	str_value2 = __eff_str(value2)
 	color = ""
@@ -474,7 +407,7 @@ def should_be_greater(value1, value2):
 	return return_value
 
 def must_be_greater(value1, value2):
-	str_args = get_actual_args_string()
+	str_args, _ = get_actual_args_str()
 	str_value1 = __eff_str(value1)
 	str_value2 = __eff_str(value2)
 	message = ""
@@ -504,7 +437,7 @@ def must_be_greater(value1, value2):
 	return return_value
 
 def should_be_less(value1, value2):
-	str_args = get_actual_args_string()
+	str_args, _ = get_actual_args_str()
 	str_value1 = __eff_str(value1)
 	str_value2 = __eff_str(value2)
 	color = ""
@@ -529,7 +462,7 @@ def should_be_less(value1, value2):
 	return return_value
 
 def must_be_less(value1, value2):
-	str_args = get_actual_args_string()
+	str_args, _ = get_actual_args_str()
 	str_value1 = __eff_str(value1)
 	str_value2 = __eff_str(value2)
 	message = ""
@@ -559,7 +492,7 @@ def must_be_less(value1, value2):
 	return return_value
 
 def should_not_be_greater(value1, value2):
-	str_args = get_actual_args_string()
+	str_args, _ = get_actual_args_str()
 	str_value1 = __eff_str(value1)
 	str_value2 = __eff_str(value2)
 	color = ""
@@ -584,7 +517,7 @@ def should_not_be_greater(value1, value2):
 	return return_value
 
 def must_not_be_greater(value1, value2):
-	str_args = get_actual_args_string()
+	str_args, _ = get_actual_args_str()
 	str_value1 = __eff_str(value1)
 	str_value2 = __eff_str(value2)
 	message = ""
@@ -614,7 +547,7 @@ def must_not_be_greater(value1, value2):
 	return return_value
 
 def should_not_be_less(value1, value2):
-	str_args = get_actual_args_string()
+	str_args, _ = get_actual_args_str()
 	str_value1 = __eff_str(value1)
 	str_value2 = __eff_str(value2)
 	color = ""
@@ -639,7 +572,7 @@ def should_not_be_less(value1, value2):
 	return return_value
 
 def must_not_be_less(value1, value2):
-	str_args = get_actual_args_string()
+	str_args, _ = get_actual_args_str()
 	str_value1 = __eff_str(value1)
 	str_value2 = __eff_str(value2)
 	message = ""
@@ -669,7 +602,7 @@ def must_not_be_less(value1, value2):
 	return return_value
 
 def should_be_true(flag):
-	str_args = get_actual_args_string()
+	str_args, _ = get_actual_args_str()
 	if flag == True:
 		Pass("(" + str_args[0] + ") is True")
 		return True
@@ -678,7 +611,7 @@ def should_be_true(flag):
 		return False
 
 def must_be_true(flag):
-	str_args = get_actual_args_string()
+	str_args, _ = get_actual_args_str()
 	if flag == True:
 		Pass(str_args[0] + " is True")
 		return True
@@ -689,7 +622,7 @@ def must_be_true(flag):
 		return False
 
 def should_be_false(flag):
-	str_args = get_actual_args_string()
+	str_args, _ = get_actual_args_str()
 	if flag == False:
 		Pass("(" + str_args[0] + ") is False")
 		return True
@@ -698,7 +631,7 @@ def should_be_false(flag):
 		return False
 
 def must_be_false(flag):
-	str_args = get_actual_args_string()
+	str_args, _ = get_actual_args_str()
 	if flag == False:
 		Pass("(" + str_args[0] + ") is False")
 		return True
@@ -709,7 +642,7 @@ def must_be_false(flag):
 		return False
 
 def should_be_approx(value1, value2, tolerance = 5, func=abs):
-	str_args = get_actual_args_string()
+	str_args, _ = get_actual_args_str()
 	str_value1 = __eff_str(value1)
 	str_value2 = __eff_str(value2)
 	color = ""
@@ -734,7 +667,7 @@ def should_be_approx(value1, value2, tolerance = 5, func=abs):
 	return return_value
 
 def must_be_approx(value1, value2, tolerance = 1/3600, func=abs):
-	str_args = get_actual_args_string()
+	str_args, _ = get_actual_args_str()
 	str_value1 = __eff_str(value1)
 	str_value2 = __eff_str(value2)
 	message = ""
@@ -764,7 +697,7 @@ def must_be_approx(value1, value2, tolerance = 1/3600, func=abs):
 	return return_value
 
 def should_not_be_approx(value1, value2, tolerance = 5, func=abs):
-	str_args = get_actual_args_string()
+	str_args, _ = get_actual_args_str()
 	str_value1 = __eff_str(value1)
 	str_value2 = __eff_str(value2)
 	color = ""
@@ -789,7 +722,7 @@ def should_not_be_approx(value1, value2, tolerance = 5, func=abs):
 	return return_value
 
 def must_not_be_approx(value1, value2, tolerance = 1/3600, func=abs):
-	str_args = get_actual_args_string()
+	str_args, _ = get_actual_args_str()
 	str_value1 = __eff_str(value1)
 	str_value2 = __eff_str(value2)
 	message = ""
@@ -835,8 +768,362 @@ def wait(time_delta):
 
 	info("Done.")
 
-enhance_func = open(os.path.abspath(os.path.dirname(__file__)) + "/enhance.py").read()
-enable = exec
+def wait_until(expression, timeout = 480, interval = 0.1, must = False):
+	str_args, str_kwargs = get_actual_args_str()
+	prev_frame = inspect.currentframe().f_back
+	expression_str = None
+	if "expression" in str_kwargs:
+		expression_str = str_kwargs["expression"]
+	else:
+		expression_str = str_args[0]
+
+	info("Waiting (" + expression_str + ") becomes True ... ", end = "")
+	if expression:
+		info("Successful. Waited 0 second.")
+		return 0
+
+	start_time = time.time()
+	while time.time() - start_time <= timeout:
+		if not eval(expression_str, prev_frame.f_globals, prev_frame.f_locals):
+			time.sleep(interval)
+		else:
+			time_waited = time.time() - start_time
+			info("Successful. Waited " + str(round(time_waited, 2)) + " seconds.")
+			return time_waited
+	info("Timeout. Waited " + str(timeout) + " seconds.")
+
+	if must:
+		raise AssertionError("(" + expression_str + ") not change to True in " + str(timeout) + " seconds.")
+	
+	return timeout
+
+def wait_until_not(expression, timeout = 480, interval = 0.1, must = False):
+	str_args, str_kwargs = get_actual_args_str()
+	prev_frame = inspect.currentframe().f_back
+	expression_str = None
+	if "expression" in str_kwargs:
+		expression_str = str_kwargs["expression"]
+	else:
+		expression_str = str_args[0]
+
+	info("Waiting (" + expression_str + ") becomes False ... ", end = "")
+	if not expression:
+		info("Successful. Waited 0 second.")
+		return 0
+
+	start_time = time.time()
+	while time.time() - start_time <= timeout:
+		if eval(expression_str, prev_frame.f_globals, prev_frame.f_locals):
+			time.sleep(interval)
+		else:
+			time_waited = time.time() - start_time
+			info("Successful. Waited " + str(round(time_waited, 2)) + " seconds.")
+			return time_waited
+	info("Timeout. Waited " + str(timeout) + " seconds.")
+
+	if must:
+		raise AssertionError("(" + expression_str + ") not change to False in " + str(timeout) + " seconds.")
+	
+	return timeout
+
+def should_keep_true(expression, time_delta, interval = 0.1):
+	str_args, str_kwargs = get_actual_args_str()
+	prev_frame = inspect.currentframe().f_back
+	expression_str = None
+	if "expression" in str_kwargs:
+		expression_str = str_kwargs["expression"]
+	else:
+		expression_str = str_args[0]
+
+	interval = min(time_delta, interval)
+	if not expression:
+		Fail("(" + expression_str + ") doesn't keep True for " + str(time_delta) + " seconds.")
+		log("     (It is False at beginning.)", color="red", style="highlight")
+		return False
+
+	start_time = time.time()
+	if time_delta > 10:
+		bar = progressbar.ProgressBar("(" + expression_str + ") should keep True for " + str(time_delta) + " seconds.")
+		while time.time()-start_time <= time_delta:
+			if not eval(expression_str, prev_frame.f_globals, prev_frame.f_locals):
+				bar.close()
+				Fail("(" + expression_str + ") doesn't keep True for " + str(time_delta) + " seconds.")
+				log("     (It becomes False at " + str(round(time.time() - start_time, 2)) + " seconds.)", color="red", style="highlight")
+				return False
+			else:
+				elaspe = time.time() - start_time
+				bar.update(elaspe/time_delta)
+				bar.time_remain(time_delta - elaspe)
+				time.sleep(interval)
+		bar.close()
+	else:
+		while time.time()-start_time <= time_delta:
+			if not eval(expression_str, prev_frame.f_globals, prev_frame.f_locals):
+				Fail("(" + expression_str + ") doesn't keep True for " + str(time_delta) + " seconds.")
+				log("     (It becomes False at " + str(round(time.time() - start_time, 2)) + " seconds.)", color="red", style="highlight")
+				return False
+			else:
+				time.sleep(interval)
+
+	Pass("(" + expression_str + ") keeps True for " + str(time_delta) + " seconds.")
+	return True
+
+def must_keep_true(expression, time_delta, interval = 0.1):
+	str_args, str_kwargs = get_actual_args_str()
+	prev_frame = inspect.currentframe().f_back
+	expression_str = None
+	if "expression" in str_kwargs:
+		expression_str = str_kwargs["expression"]
+	else:
+		expression_str = str_args[0]
+
+	interval = min(time_delta, interval)
+	if not expression:
+		message = "(" + expression_str + ") doesn't keep True for " + str(time_delta) + " seconds."
+		Fail(message)
+		log("     (It is False at beginning.)", color="red", style="highlight")
+		raise AssertionError(message)
+		return False
+
+	start_time = time.time()
+	if time_delta > 10:
+		bar = progressbar.ProgressBar("(" + expression_str + ") must keep True for " + str(time_delta) + " seconds.")
+		while time.time()-start_time <= time_delta:
+			if not eval(expression_str, prev_frame.f_globals, prev_frame.f_locals):
+				bar.close()
+				message = "(" + expression_str + ") doesn't keep True for " + str(time_delta) + " seconds."
+				Fail(message)
+				log("     (It becomes False at " + str(round(time.time() - start_time, 2)) + " seconds.)", color="red", style="highlight")
+				raise AssertionError(message)
+				return False
+			else:
+				elaspe = time.time() - start_time
+				bar.update(elaspe/time_delta)
+				bar.time_remain(time_delta - elaspe)
+				time.sleep(interval)
+		bar.close()
+	else:
+		while time.time()-start_time <= time_delta:
+			if not eval(expression_str, prev_frame.f_globals, prev_frame.f_locals):
+				message = "(" + expression_str + ") doesn't keep True for " + str(time_delta) + " seconds."
+				Fail(message)
+				log("     (It becomes False at " + str(round(time.time() - start_time, 2)) + " seconds.)", color="red", style="highlight")
+				raise AssertionError(message)
+				return False
+			else:
+				time.sleep(interval)
+
+	Pass("(" + expression_str + ") keeps True for " + str(time_delta) + " seconds.")
+	return True
+
+def should_keep_false(expression, time_delta, interval = 0.1):
+	str_args, str_kwargs = get_actual_args_str()
+	prev_frame = inspect.currentframe().f_back
+	expression_str = None
+	if "expression" in str_kwargs:
+		expression_str = str_kwargs["expression"]
+	else:
+		expression_str = str_args[0]
+
+	interval = min(time_delta, interval)
+	if expression:
+		Fail("(" + expression_str + ") doesn't keep False for " + str(time_delta) + " seconds.")
+		log("     (It's True at beginning.)")
+		return False
+
+	start_time = time.time()
+	if time_delta > 10:
+		bar = progressbar.ProgressBar("(" + expression_str + ") should keep False for " + str(time_delta) + " seconds.")
+		while time.time()-start_time <= time_delta:
+			if eval(expression_str, prev_frame.f_globals, prev_frame.f_locals):
+				bar.close()
+				Fail("(" + expression_str + ") doesn't keep False for " + str(time_delta) + " seconds.")
+				log("     (It becomes True at " + str(round(time.time() - start_time, 2)) + " seconds.)", color="red", style="highlight")
+				return False
+			else:
+				elaspe = time.time() - start_time
+				bar.update(elaspe/time_delta)
+				bar.time_remain(time_delta - elaspe)
+				time.sleep(interval)
+		bar.close()
+	else:
+		while time.time()-start_time <= time_delta:
+			if eval(expression_str, prev_frame.f_globals, prev_frame.f_locals):
+				Fail("(" + expression_str + ") doesn't keep False for " + str(time_delta) + " seconds.")
+				log("     (It becomes True at " + str(round(time.time() - start_time, 2)) + " seconds.)", color="red", style="highlight")
+				return False
+			else:
+				time.sleep(interval)
+
+	Pass("(" + expression_str + ") keeps False for " + str(time_delta) + " seconds.")
+	return True
+
+def must_keep_false(expression, time_delta, interval = 0.1):
+	str_args, str_kwargs = get_actual_args_str()
+	prev_frame = inspect.currentframe().f_back
+	expression_str = None
+	if "expression" in str_kwargs:
+		expression_str = str_kwargs["expression"]
+	else:
+		expression_str = str_args[0]
+
+	interval = min(time_delta, interval)
+	if expression:
+		message = "(" + expression_str + ") doesn't keep False for " + str(time_delta) + " seconds."
+		Fail(message)
+		log("     (It's True at beginning.)", color="red", style="highlight")
+		raise AssertionError(message)
+		return False
+
+	start_time = time.time()
+	if time_delta > 10:
+		bar = progressbar.ProgressBar("(" + expression_str + ") should keep False for " + str(time_delta) + " seconds.")
+		while time.time()-start_time <= time_delta:
+			if eval(expression_str, prev_frame.f_globals, prev_frame.f_locals):
+				bar.close()
+				message = "(" + expression_str + ") doesn't keep False for " + str(time_delta) + " seconds."
+				Fail(message)
+				log("     (It becomes True at " + str(round(time.time() - start_time, 2)) + " seconds.)", color="red", style="highlight")
+				raise AssertionError(message)
+				return False
+			else:
+				elaspe = time.time() - start_time
+				bar.update(elaspe/time_delta)
+				bar.time_remain(time_delta - elaspe)
+				time.sleep(interval)
+		bar.close()
+	else:
+		while time.time()-start_time <= time_delta:
+			if eval(expression_str, prev_frame.f_globals, prev_frame.f_locals):
+				message = "(" + expression_str + ") doesn't keep False for " + str(time_delta) + " seconds."
+				Fail(message)
+				log("     (It becomes True at " + str(round(time.time() - start_time, 2)) + " seconds.)", color="red", style="highlight")
+				raise AssertionError(message)
+				return False
+			else:
+				time.sleep(interval)
+				
+	Pass("(" + expression_str + ") keeps False for " + str(time_delta) + " seconds.")
+	return True
+
+def should_become_true(expression, timeout, interval = 0.1):
+	str_args, str_kwargs = get_actual_args_str()
+	prev_frame = inspect.currentframe().f_back
+	expression_str = None
+	if "expression" in str_kwargs:
+		expression_str = str_kwargs["expression"]
+	else:
+		expression_str = str_args[0]
+
+	if expression:
+		Pass("(" + expression_str + ") becomes True in " + str(timeout) + " seconds.")
+		log("     (It is True at beginning.)", color="green", style="highlight")
+		return True
+
+	info("Waiting (" + expression_str + ") becomes True ... ")
+
+	start_time = time.time()
+	while time.time() - start_time <= timeout:
+		if not eval(expression_str, prev_frame.f_globals, prev_frame.f_locals):
+			time.sleep(interval)
+		else:
+			time_waited = time.time() - start_time
+			Pass("(" + expression_str + ") becomes True in " + str(timeout) + " seconds.")
+			log("     (It becomes True at " + str(time_waited) + " seconds.)", color="green", style="highlight")
+			return True
+
+	Fail("(" + expression_str + ") doesn't become True in " + str(timeout) + " seconds.")
+	return False
+
+def must_become_true(expression, timeout, interval = 0.1):
+	str_args, str_kwargs = get_actual_args_str()
+	prev_frame = inspect.currentframe().f_back
+	expression_str = None
+	if "expression" in str_kwargs:
+		expression_str = str_kwargs["expression"]
+	else:
+		expression_str = str_args[0]
+
+	if expression:
+		Pass("(" + expression_str + ") becomes True in " + str(timeout) + " seconds.")
+		log("     (It is True at beginning.)", color="green", style="highlight")
+		return True
+
+	info("Waiting (" + expression_str + ") becomes True ... ")
+
+	start_time = time.time()
+	while time.time() - start_time <= timeout:
+		if not eval(expression_str, prev_frame.f_globals, prev_frame.f_locals):
+			time.sleep(interval)
+		else:
+			time_waited = time.time() - start_time
+			Pass("(" + expression_str + ") becomes True in " + str(timeout) + " seconds.")
+			log("     (It becomes True at " + str(time_waited) + " seconds.)", color="green", style="highlight")
+			return True
+
+	message = "(" + expression_str + ") doesn't become True in " + str(timeout) + " seconds."
+	Fail(message)
+	raise AssertionError(message)
+	return False
+
+def should_become_false(expression, timeout, interval = 0.1):
+	str_args, str_kwargs = get_actual_args_str()
+	prev_frame = inspect.currentframe().f_back
+	expression_str = None
+	if "expression" in str_kwargs:
+		expression_str = str_kwargs["expression"]
+	else:
+		expression_str = str_args[0]
+
+	if not expression:
+		Pass("(" + expression_str + ") becomes False in " + str(timeout) + " seconds.")
+		log("     (It's False at beginning.)", color="green", style="highlight")
+		return True
+
+	info("Waiting (" + expression_str + ") becomes False ... ")
+
+	start_time = time.time()
+	while time.time() - start_time <= timeout:
+		if eval(expression_str, prev_frame.f_globals, prev_frame.f_locals):
+			time.sleep(interval)
+		else:
+			time_waited = time.time() - start_time
+			Pass("(" + expression_str + ") becomes False in " + str(timeout) + " seconds.")
+			log("     (It becomes False at " + str(time_waited) + " seconds.)", color="green", style="highlight")
+			return True
+
+	Fail("(" + expression_str + ") doesn't become False in " + str(timeout) + " seconds.")
+	return False
+
+def must_become_false(expression, timeout, interval = 0.1):
+	str_args, str_kwargs = get_actual_args_str()
+	prev_frame = inspect.currentframe().f_back
+	expression_str = None
+	if "expression" in str_kwargs:
+		expression_str = str_kwargs["expression"]
+	else:
+		expression_str = str_args[0]
+
+	if not expression:
+		Pass("(" + expression_str + ") becomes False in " + str(timeout) + " seconds.")
+		log("     (It's False at beginning.)", color="green", style="highlight")
+		return True
+
+	info("Waiting \"" + expression_str + "\" becomes False ... ")
+
+	start_time = time.time()
+	while time.time() - start_time <= timeout:
+		if eval(expression_str, prev_frame.f_globals, prev_frame.f_locals):
+			time.sleep(interval)
+		else:
+			time_waited = time.time() - start_time
+			Pass("(" + expression_str + ") becomes False in " + str(timeout) + " seconds.")
+			log("     (It becomes False at " + str(time_waited) + " seconds.)", color="green", style="highlight")
+			return True
+	message = "(" + expression_str + ") doesn't become False in " + str(timeout) + " seconds."
+	Fail(message)
+	raise AssertionError(message)
+	return False
 
 def log(*args, **kwargs):
 	start_test()

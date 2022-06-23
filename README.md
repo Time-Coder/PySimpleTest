@@ -56,14 +56,6 @@ Else "<font color="red">Fail: (&lt;expression&gt;) is False</font>" will be prin
 * `should_not_be_greater(value1, value2)`: Pass when `value1 <= value2`.
 * `should_be_approx(value1, value2, tolerence = 5, func = abs)`: Pass when `func(value1-value2) <= tolerence`.
 * `should_not_be_approx(value1, value2, tolerence = 5, func = abs)`: Pass when `func(value1-value2) > tolerence`.
-
-Following functions are enhance functions, you need to use `enable(enhance_func)` after `import` just like:
-<label id="enhance"></label>
-```python
-from PySimpleTest import *
-enable(enhance_func)
-```
-
 * `should_keep_true(expression, duration)`: Pass when `expression` keeps True for `duration` seconds.  
 Try following example:
 ```python
@@ -193,9 +185,7 @@ header_info["Reviewer"] = "Eason"
 </div>
 
 * `wait_until(expression, timeout = 480, interval = 0.1, must = False)`: Wait until `<expression>` becomes True. If time waited more than `timeout`, it will stop waiting. `interval` indicate the time interval between two times `eval` of `<expression>`. If `must` is True, it will raise an `AssertionError` when timeout is reached.  
-(<font color="red">**Note:**</font> this function can only work after you [enable enhance function](#enhance))
 * `wait_until_not(expression, timeout = 480, interval = 0.1, must = False)`: Similar with `wait_until`. Just to wait `<expression>` become False.  
-(<font color="red">**Note:**</font> this function can only work after you [enable enhance function](#enhance))
 * `please(do_something)`: Pop out a window to indicate you to do some manual operation. For example:
 ```python
 please("reboot machine 1")
