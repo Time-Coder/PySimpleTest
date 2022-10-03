@@ -251,6 +251,11 @@ In your console, Python program with PySimpleTest module will exit with 5 kind o
 * exit code `3`: Inner exception raised.
 * exit code `5`: No assertion.
 
+After running a test script, 
+
+* On Windows, you can use `echo %errorlevel%` to check the exit code in command window;
+* On Linux, you can use `echo $?` to check the exit code in terminal.
+
 ## 6  <label id="sec_External_Configuration">External Configuration</label>
 A file with `.linfo` expand name is also generated. This file is same as `.info` file but with additional link information. So `linfo` is the abbreviation of "link info". The link information is just like `<file_name>:<line_number>`. It's used for double click then jump to script calling place. But this need external editor's support. This section will introduce how to implement double click jump in editor `Sublime Text`.
 

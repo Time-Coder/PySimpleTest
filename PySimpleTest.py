@@ -5,7 +5,8 @@ from . import progressbar
 from .speaker import *
 from .helper import *
 import time
-import win32api, win32con
+import tkinter
+import tkinter.messagebox
 import copy
 import getpass
 import datetime
@@ -13,6 +14,10 @@ import atexit
 import traceback
 import threading
 import ctypes
+import colorama
+
+root = tkinter.Tk()
+root.withdraw()
 
 def base_name(file_path):
 	filename = os.path.basename(file_path)
@@ -123,8 +128,7 @@ header_info["url"] = ""
 tailer_info = {}
 
 # turn on cmd color
-kernel32 = ctypes.windll.kernel32
-kernel32.SetConsoleMode(kernel32.GetStdHandle(-11), 7)
+colorama.init()
 
 # configuration
 def color_on():
@@ -177,6 +181,8 @@ def start_test():
 
 	__first_use = False
 	base = base_name(sys.argv[0])
+	if len(base) == 0:
+		base = "stdin"
 
 	if header_info["version"]:
 		__log_filename = base + "_" + header_info["version"] + ".log"
@@ -242,8 +248,12 @@ def start_test():
 	if not os.path.isdir(os.path.abspath(os.path.dirname(__linfo_filename))):
 		os.makedirs(os.path.abspath(os.path.dirname(__linfo_filename)))
 
-	__rel_path = os.path.relpath(sys.argv[0], os.path.dirname(__linfo_filename))
-	__script_total_line = sum(1 for line in open(sys.argv[0]))
+	try:
+		__rel_path = os.path.relpath(sys.argv[0], os.path.dirname(__linfo_filename))
+		__script_total_line = sum(1 for line in open(sys.argv[0]))
+	except:
+		__rel_path = base
+		__script_total_line = 0
 
 	file = open(__log_filename, "w")
 	file.write("")
@@ -1303,19 +1313,19 @@ def please(do_something):
 	if __voice_on:
 		say("Please " + do_something)
 
-	win32api.MessageBox(0, "Please " + do_something, "Manual Operation Request", win32con.MB_OK)
+	tkinter.messagebox.showinfo("Manual Operation Request", "Please " + do_something)
 
 def please_check(something):
 	if __voice_on:
 		say("Please check " + something)
 
-	result = win32api.MessageBox(0, "Please check " + something, "Manual Check Request", win32con.MB_YESNO)
-	if result == win32con.IDYES:
+	result = tkinter.messagebox.askyesno("Manual Check Request", "Please check " + something)
+	if result:
 		Pass("(" + something + ") is True.")
-		return True
 	else:
 		Fail("(" + something + ") is False.")
-		return False
+
+	return result
 
 def section_number(level = None):
 	if level is None:
