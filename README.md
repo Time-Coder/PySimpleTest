@@ -45,7 +45,7 @@ This section will introduce all functions provided by `PySimpleTest`
 For all assertion functions, will return `True` when Pass, return `False` when Fail. These function are listed below:
 
 * `should_be_true(expression)`:  
-If `expression` is True, it will print "<font color="green">Pass: (&lt;expression&gt;) is True</font>" and log in three output files.  
+If `expression` is True, it will print "<font color="green">Pass: (&lt;expression&gt;) is True</font>" and log in three output files.
 Else "<font color="red">Fail: (&lt;expression&gt;) is False</font>" will be printed and logged.
 * `should_be_false(expression)`: Pass when `expression` is False.
 * `should_be_equal(value1, value2)`: Pass when `value1 == value2`.
@@ -54,9 +54,9 @@ Else "<font color="red">Fail: (&lt;expression&gt;) is False</font>" will be prin
 * `should_not_be_less(value1, value2)`: Pass when `value1 >= value2`.
 * `should_be_greater(value1, value2)`: Pass when `value1 > value2`.
 * `should_not_be_greater(value1, value2)`: Pass when `value1 <= value2`.
-* `should_be_approx(value1, value2, tolerence = 5, func = abs)`: Pass when `func(value1-value2) <= tolerence`.
-* `should_not_be_approx(value1, value2, tolerence = 5, func = abs)`: Pass when `func(value1-value2) > tolerence`.
-* `should_keep_true(expression, duration)`: Pass when `expression` keeps True for `duration` seconds.  
+* `should_be_approx(value1, value2, tolerance = 5, func = abs)`: Pass when `func(value1-value2) <= tolerance`.
+* `should_not_be_approx(value1, value2, tolerance = 5, func = abs)`: Pass when `func(value1-value2) > tolerance`.
+* `should_keep_true(expression, duration)`: Pass when `expression` keeps True for `duration` seconds.
 Try following example:
 ```python
 import time
@@ -70,8 +70,15 @@ should_keep_true(time.time()-start_time < 3, 5)
 * `should_keep_false(expression, duration)`: Pass when `expression` keeps False for `duration` seconds.
 * `should_become_true(expression, timeout)`: Pass when `expression` becomes True in `timeout` seconds.
 * `should_become_false(expression, timeout)`: Pass when `expression` becomes False in `timeout` seconds.
+* `should_raise(lambda_exp, exception=None)`: Pass when `lambda_exp` raise a exception.
+    * If parameter `exception` is `None`, all exceptions raised will be passed;
+    * If parameter `exception` is an exception type such as `ZeroDivisionError`, all exceptions that are the instance of such type raised will be passed;
+    * If parameter `exception` is an exception instance such as `BaseException()`, only exception that just the same with such exception instance raised will be passed.
+* `should_not_raise(lambda_exp)`: Pass when `lambda_exp` dosen't raise any exception.
 
-Every function start with `should_` has it's blocked version start with `must_`. For example, `must_be_true(expression)`. `must_*` functions do the same thing as `should_*` functions only except when assertion is Fail, `must_*` function will raise an `AssertionError`.
+> In above function list, all parameter named with `expression` can be a normal expression or a lambda expression. But you can only use lambda expression in Python console mode.
+
+> Every function start with `should_` has it's blocked version start with `must_`. For example, `must_be_true(expression)`. `must_*` functions do the same thing as `should_*` functions only except when assertion is failed, `must_*` function will raise an `AssertionError` with fail message.
 
 ### 3.2  Logging System
 
@@ -179,31 +186,32 @@ header_info["Reviewer"] = "Eason"
 * `Pass(message)`: Same as `log("Pass:", message, color="green", style="highlight")`
 * `Fail(message)`: Same as `log("Fail:", message, color="red", style="highlight")`
 * `Skip(message)`: Same as `log("Skip:", message, color="green", style="highlight")`
-* `wait(duration)`: Wait `duration` seconds. If `duration` is greater than 10, The progress bar will pop out to indicate progress and time remain. Just like following figure:
+* `wait(duration)`: Wait `duration` seconds. If `gui_on()` is called before and `duration` is greater than 10, The progress bar will pop out to indicate progress and time remain. Just like following figure:
 <div align="center">
 <img src="https://s1.ax1x.com/2020/08/15/dkovmn.png" width="500">
 </div>
 
 * `wait_until(expression, timeout = 480, interval = 0.1, must = False)`: Wait until `<expression>` becomes True. If time waited more than `timeout`, it will stop waiting. `interval` indicate the time interval between two times `eval` of `<expression>`. If `must` is True, it will raise an `AssertionError` when timeout is reached.  
 * `wait_until_not(expression, timeout = 480, interval = 0.1, must = False)`: Similar with `wait_until`. Just to wait `<expression>` become False.  
-* `please(do_something)`: Pop out a window to indicate you to do some manual operation. For example:
+* `please(do_something)`: If `gui_on()` is called before, it will pop up a message box to indicate you to do some manual operation. For example:
 ```python
 please("reboot machine 1")
 ```
-Then it will pop out following window and wait you finish manual operation then click `OK` button.
+Then it will pop up following message box and wait you finish manual operation then click `OK` button.
 <div align="center">
 <img src="https://s1.ax1x.com/2020/08/15/dkoOyj.png" width="200">
 </div>
+If `gui_on()` is not called before, a console prompt will indicate you to enter after you finished manual operation.
 
-* `please_check(something)`:  
-Pop out a window to indicate you to do some manual check. This window will have two buttons: `Yes` and `No`:
+* `please_check(something)`: If `gui_on()` is called before, it will pop up a message box to indicate you to do some manual check. This window will have two buttons: `Yes` and `No`:
     * If you click `Yes`, it will log "<font color="green">Pass: (&lt;somthing&gt;) is True</font>".
     * If you click `No`, it will log "<font color="red">Fail: (&lt;something&gt;) is False</font>".
 <div align="center">
 <img src="https://s1.ax1x.com/2020/08/15/dkoXOs.png" width="200">
 </div>
+If `gui_on()` is not called before, a console prompt will indicate you to input yes or no.
 
-* `say(message)`: You can use `say` to speak out message.
+* `say(message)`: If `void_on()` is called before, you can use `say` to speak out message.
 
 ### 3.5  Configuration System
 
@@ -220,11 +228,14 @@ that means your console not support ASCII escape characters. Please use `color_o
     * a voice will say "Please &lt;do something&gt;" when `please` is called;
     * a voice will say "Please check &lt;something&gt;" when `please_check` is called. 
 * `voice_off()`: To turn off voice. If voice is disable, nothing will speak out only except you use `say` function. The voice default status is disabled.
+* `gui_on()`: To turn on gui. If gui is enable:
+    * a message box will pop up when `please` or `please_check` is called;
+    * a progressbar will pop up when `wait` or `should/must_keep_true/false` is called;
 
 ## 4  <label id="sec_Terminal_Arguments">Terminal Arguments</label>
 If you import `PySimpleTest`, you can use some terminal arguments to configure some thing. The terminal arguments formats is as following:
 ```
-$ python <script>.py [--logfile <path>] [--infofile <path>] [--linfofile <path>] [--color {on|off}] [--voice {on|off}] [--title <name>] [--author <name>] [--version <name>] [--url <link>]
+$ python <script>.py [--logfile <path>] [--infofile <path>] [--linfofile <path>] [--color {on|off}] [--voice {on|off}] [--gui {on|off}] [--title <name>] [--author <name>] [--version <name>] [--url <link>]
 ```
 For example, when execute your script, use following command to log author name in log file:
 ```
@@ -237,6 +248,7 @@ All supported arguments description are list here:
 * `--linfofile <path>`: to specify linfo file store path.
 * `--color {(on)|off}`: to decide console coloring output is on or off. Just like use `color_on()` or `color_off()` inside script. Default option is color on.
 * `--voice {on|(off)}`: to decide voice enable or disable. Just like use `voice_on()` or `voice_off()` inside script. Default option is voice off.
+* `--gui {on|(off)}`: to decide gui enable or disable. Just like use `gui_on()` or `gui_off()` inside script. Default option is gui off.
 * `--title <name>`: to specify test title logged in log file. Just like use `title(name)` inside script.
 * `--author <name>`: to specify author name logged in log file. Just like use `author(name)` inside script.
 * `--version <ver>`: to specify product version logged in log file. Just like use `version(ver)` inside script.
