@@ -97,7 +97,7 @@ __color_on = True
 __voice_on = False
 __gui_on = False
 __start_time = None
-
+__speak_engine = None
 __is_gui_init = False
 __gui_init_code = """
 from . import progressbar
@@ -109,7 +109,7 @@ __root.withdraw()
 
 __is_voice_init = False
 __voice_init_code = """
-from .speaker import *
+import pyttsx3
 """
 
 # log system
@@ -1899,10 +1899,10 @@ def info(*args, **kwargs):
 	__print_use_indent = (len(kwargs["end"]) >= 1 and kwargs["end"][-1] == '\n')
 
 def please(do_something):
-	if __voice_on:
-		say("Please " + do_something)
-
 	message = "Please " + do_something + " manually."
+
+	if __voice_on:
+		say(message)
 
 	info("--- Manual Operation Start ---")
 	info(message)
@@ -1913,13 +1913,16 @@ def please(do_something):
 	info("--- Manual Operation End ---")
 
 def please_check(something):
+	message = "Please check if " + something + " manually."
+
 	if __voice_on:
-		say("Please check if " + something)
+		say(message)
 
 	result = False
 	info("--- Manual Check Start ---")
+	info(message)
 	if __gui_on:
-		result = tkinter.messagebox.askyesno("Manual Check Request", "Please check if " + something + " manually.")
+		result = tkinter.messagebox.askyesno("Manual Check Request", message)
 	else:
 		result = (input("If " + something + " ? (y/n): ") == "y")
 	info("--- Manual Check End ---")
@@ -2048,14 +2051,17 @@ class Section:
 	def __exit__(self, type, value, tb):
 		end_section()
 
-def run_together(*args):
-	threads = []
-	for arg in args:
-		threads.append(threading.Thread(target = arg))
-	for thread in threads:
-		thread.start()
-	for thread in threads:
-		thread.join()
+def say(content):
+	global __speak_engine
+	if not __speak_engine:
+		__speak_engine = pyttsx3.init()
+		voices = __speak_engine.getProperty('voices')
+		__speak_engine.setProperty('voice', voices[1].id)
+		__speak_engine.setProperty('rate', 150)
+		__speak_engine.setProperty('volume', 1)
+
+	__speak_engine.say(content)
+	__speak_engine.runAndWait()
 
 @atexit.register
 def end_test():
