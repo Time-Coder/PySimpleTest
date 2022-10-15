@@ -70,11 +70,15 @@ should_keep_true(time.time()-start_time < 3, 5)
 * `should_keep_false(expression, duration)`: Pass when `expression` keeps False for `duration` seconds.
 * `should_become_true(expression, timeout)`: Pass when `expression` becomes True in `timeout` seconds.
 * `should_become_false(expression, timeout)`: Pass when `expression` becomes False in `timeout` seconds.
-* `should_raise(lambda_exp, exception=None)`: Pass when `lambda_exp` raise a exception.
+* `should_raise(expression, exception=None)`: Pass when `expression` raise a exception.
     * If parameter `exception` is `None`, all exceptions raised will be passed;
     * If parameter `exception` is an exception type such as `ZeroDivisionError`, all exceptions that are the instance of such type raised will be passed;
-    * If parameter `exception` is an exception instance such as `BaseException()`, only exception that just the same with such exception instance raised will be passed.
-* `should_not_raise(lambda_exp)`: Pass when `lambda_exp` dosen't raise any exception.
+    * If parameter `exception` is an exception instance such as `BaseException()`, only exception that just the same with such exception instance raised will be passed;
+* `should_not_raise(expression)`: Pass when `expression` dosen't raise any exception;
+* `should_keep_raising(expression, duration, interval=0.1, exception=None)`: Pass when `expression` keeps raising `exception`;
+* `should_keep_not_raising(expression, duration, interval=0.1)`: Pass when `expression` keeps raise nothing;
+* `should_become_raising(expression, timeout=480, interval=0.1, exception=None)`: Pass when `expression` raise `exception` in `timeout` seconds;
+* `should_become_not_raising(expression, timeout=480, interval=0.1)`: Pass when `expression` become not raising anything in `timeout` seconds;
 
 > In above function list, all parameter named with `expression` can be a normal expression or a lambda expression. But you can only use lambda expression in Python console mode.
 
@@ -191,8 +195,10 @@ header_info["Reviewer"] = "Eason"
 <img src="https://s1.ax1x.com/2020/08/15/dkovmn.png" width="500">
 </div>
 
-* `wait_until(expression, timeout = 480, interval = 0.1, must = False)`: Wait until `<expression>` becomes True. If time waited more than `timeout`, it will stop waiting. `interval` indicate the time interval between two times `eval` of `<expression>`. If `must` is True, it will raise an `AssertionError` when timeout is reached.  
-* `wait_until_not(expression, timeout = 480, interval = 0.1, must = False)`: Similar with `wait_until`. Just to wait `<expression>` become False.  
+* `wait_until(expression, timeout=480, interval=0.1, must=False)`: Wait until `<expression>` becomes True. If time waited more than `timeout`, it will stop waiting. `interval` indicate the time interval between two times `eval` of `<expression>`. If `must` is True, it will raise an `AssertionError` when timeout is reached.  
+* `wait_until_not(expression, timeout=480, interval=0.1, must=False)`: Similar with `wait_until`. Just to wait `<expression>` become False.  
+* `wait_until_raise(expression, exception=None, timeout=480, interval=0.1, must=False)`: Wait until `<expression>` raise `exception`.
+* `wait_until_not_raise(expression, timeout=480, interval=0.1, must=False)`: Wait until `<expression>` not raise any exceptions.
 * `please(do_something)`: If `gui_on()` is called before, it will pop up a message box to indicate you to do some manual operation. For example:
 ```python
 please("reboot machine 1")
