@@ -19,11 +19,11 @@ So for writting small test, PySimpleTest is a good choice. In addition, you can 
 ## 2  Getting Start
 Write a file `main.py`:
 ```python
-from PySimpleTest import *
+import PySimpleTest as pst
 
 a = 2
-should_be_equal(a, 2)
-should_be_less(a, 1)
+pst.should_be_equal(a, 2)
+pst.should_be_less(a, 1)
 ```
 Then run it. You can get following cmd output:  
 <div align="center">
@@ -59,13 +59,14 @@ Else "<font color="red">Fail: (&lt;expression&gt;) is False</font>" will be prin
 * `should_keep_true(expression, duration)`: Pass when `expression` keeps True for `duration` seconds.
 Try following example:
 ```python
+import PySimpleTest as pst
 import time
 
 start_time = time.time()
-should_keep_true(time.time()-start_time < 3, 2)
+pst.should_keep_true(time.time()-start_time < 3, 2)
 
 start_time = time.time()
-should_keep_true(time.time()-start_time < 3, 5)
+pst.should_keep_true(time.time()-start_time < 3, 5)
 ```
 * `should_keep_false(expression, duration)`: Pass when `expression` keeps False for `duration` seconds.
 * `should_become_true(expression, timeout)`: Pass when `expression` becomes True in `timeout` seconds.
@@ -74,6 +75,15 @@ should_keep_true(time.time()-start_time < 3, 5)
     * If parameter `exception` is `None`, all exceptions raised will be passed;
     * If parameter `exception` is an exception type such as `ZeroDivisionError`, all exceptions that are the instance of such type raised will be passed;
     * If parameter `exception` is an exception instance such as `BaseException()`, only exception that just the same with such exception instance raised will be passed;
+Try following example:
+```python
+import PySimpleTest as pst
+
+pst.should_raise(lambda:1/0)
+pst.should_raise(lambda:1/0, ZeroDivisionError)
+pst.should_raise(lambda:1/0, NameError)
+pst.should_raise(lambda:1/0, ZeroDivisionError("division by zero"))
+```
 * `should_not_raise(expression)`: Pass when `expression` dosen't raise any exception;
 * `should_keep_raising(expression, duration, interval=0.1, exception=None)`: Pass when `expression` keeps raising `exception`;
 * `should_keep_not_raising(expression, duration, interval=0.1)`: Pass when `expression` keeps raise nothing;
